@@ -1,5 +1,9 @@
 # Noctis Theme for webtrees
 
+[![release](https://img.shields.io/github/v/release/szporwolik/webtrees-theme-noctis?label=release&color=1f6feb)](https://github.com/szporwolik/webtrees-theme-noctis/releases)
+[![webtrees](https://img.shields.io/badge/webtrees-v2.2.x-5cb85c)](https://github.com/fisharebest/webtrees)
+[![downloads](https://img.shields.io/github/downloads/szporwolik/webtrees-theme-noctis/total?label=downloads&color=5cb85c)](https://github.com/szporwolik/webtrees-theme-noctis/releases)
+
 A modern, handcrafted dark theme for [webtrees](https://www.webtrees.net/) — the leading open-source genealogy application.
 
 The goal is to deliver a clean, modern dark UI that feels cohesive, accessible, and pleasant for long genealogy sessions. This theme is inspired by the work of the author of [JustLight](https://github.com/JustCarmen/webtrees-theme-justlight).
@@ -28,6 +32,12 @@ Built with care for aesthetics, accessibility, and performance. Follows 2026 des
 - **Accessible** — WCAG focus outlines, skip-to-content link, keyboard navigation
 - **Print-friendly** — Clean white output when printing
 - **Custom scrollbars** — Themed for WebKit and Firefox
+
+## Screenshots
+
+Store screenshots in the repository folder: `screenshots/`.
+
+![Noctis Theme - Main Screen](screenshots/screen_main.png)
 
 ## Installation
 
@@ -66,8 +76,9 @@ Built with care for aesthetics, accessibility, and performance. Follows 2026 des
 ```
 ├── module.php              # Entry point (returns theme instance)
 ├── NoctisTheme.php         # Theme class (extends MinimalTheme)
-├── LICENSE.md              # GPL-3.0
+├── LICENSE                 # GPL-3.0
 ├── README.md
+├── screenshots/            # README images
 └── resources/
     ├── css/
     │   └── noctis.css      # Complete dark stylesheet (~2400 lines)
