@@ -2261,6 +2261,9 @@ body.modal-open .modal-backdrop.show {
     border-radius: var(--mn-radius-md) !important;
     box-shadow: var(--mn-shadow-lg) !important;
     color: var(--mn-text-primary) !important;
+    max-width: min(980px, calc(100vw - 1rem));
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .wt-osk .card-header {
@@ -2273,6 +2276,21 @@ body.modal-open .modal-backdrop.show {
     background: var(--mn-bg-surface) !important;
     border: 1px solid var(--mn-border) !important;
     color: var(--mn-text-primary) !important;
+    max-height: min(58vh, 520px);
+    overflow: auto;
+}
+
+.wt-osk .btn-check:checked + .btn,
+.wt-osk .btn.active,
+.wt-osk .btn[aria-pressed="true"] {
+    background: var(--mn-accent-subtle) !important;
+    border-color: var(--mn-accent) !important;
+    color: #fff !important;
+}
+
+.wt-osk .btn-close {
+    filter: invert(1) grayscale(0.2);
+    opacity: 0.9;
 }
 
 .wt-osk-group {
@@ -2285,6 +2303,11 @@ body.modal-open .modal-backdrop.show {
     border-radius: var(--mn-radius-sm) !important;
     color: var(--mn-text-primary) !important;
     transition: background var(--mn-transition-fast), border-color var(--mn-transition-fast), color var(--mn-transition-fast);
+}
+
+.wt-osk-key > span {
+    font-size: 0.72rem;
+    color: var(--mn-text-secondary) !important;
 }
 
 .wt-osk-key:hover {
