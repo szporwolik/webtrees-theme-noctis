@@ -1,6 +1,6 @@
 # Noctis Theme for webtrees
 
-[![release](https://img.shields.io/github/v/release/szporwolik/webtrees-theme-noctis?label=release&color=1f6feb)](https://github.com/szporwolik/webtrees-theme-noctis/releases)
+[![release](https://img.shields.io/github/v/release/szporwolik/webtrees-theme-noctis?include_prereleases&label=release&color=1f6feb)](https://github.com/szporwolik/webtrees-theme-noctis/releases)
 [![webtrees](https://img.shields.io/badge/webtrees-v2.2.x-5cb85c)](https://github.com/fisharebest/webtrees)
 [![downloads](https://img.shields.io/github/downloads/szporwolik/webtrees-theme-noctis/total?label=downloads&color=5cb85c)](https://github.com/szporwolik/webtrees-theme-noctis/releases)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
