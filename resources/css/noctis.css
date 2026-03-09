@@ -1336,6 +1336,7 @@ input[type="button"]:hover {
 .tooltip,
 .ui-dialog,
 .ui-datepicker,
+.ui-keyboard,
 .autocomplete-suggestions {
     z-index: 3000 !important;
 }
@@ -1350,8 +1351,15 @@ body.modal-open .modal-backdrop.show {
 .select2-container--open,
 .select2-container--open .select2-dropdown,
 .ts-dropdown,
-.ts-dropdown-content {
+.ts-dropdown-content,
+.ui-keyboard,
+.ui-datepicker {
     z-index: 3010 !important;
+}
+
+/* jQuery UI widgets opened above modals/header */
+.ui-widget-overlay {
+    z-index: 2980 !important;
 }
 
 /* Fix orphaned modal backdrop - hide when no modal is open */
@@ -2249,6 +2257,83 @@ body.modal-open .modal-backdrop.show {
 .wt-osk-keys {
     background: var(--mn-bg-surface);
     border: 1px solid var(--mn-border);
+}
+
+/* jQuery UI Datepicker (calendar popup) */
+.ui-datepicker {
+    background: var(--mn-bg-surface) !important;
+    border: 1px solid var(--mn-border) !important;
+    color: var(--mn-text-primary) !important;
+    box-shadow: var(--mn-shadow-lg) !important;
+    border-radius: var(--mn-radius-md) !important;
+    padding: 0.4rem !important;
+}
+
+.ui-datepicker .ui-datepicker-header {
+    background: var(--mn-bg-tertiary) !important;
+    border: 1px solid var(--mn-border) !important;
+    color: var(--mn-text-primary) !important;
+    border-radius: var(--mn-radius-sm) !important;
+}
+
+.ui-datepicker .ui-state-default,
+.ui-datepicker .ui-widget-content .ui-state-default,
+.ui-datepicker .ui-widget-header .ui-state-default {
+    background: var(--mn-bg-secondary) !important;
+    border: 1px solid var(--mn-border) !important;
+    color: var(--mn-text-primary) !important;
+}
+
+.ui-datepicker td a:hover,
+.ui-datepicker .ui-state-hover {
+    background: var(--mn-bg-elevated) !important;
+    border-color: var(--mn-border-accent) !important;
+    color: var(--mn-text-primary) !important;
+}
+
+.ui-datepicker .ui-state-active,
+.ui-datepicker .ui-state-highlight {
+    background: var(--mn-accent-subtle) !important;
+    border-color: var(--mn-accent) !important;
+    color: var(--mn-text-primary) !important;
+}
+
+/* jQuery On-screen keyboard */
+.ui-keyboard {
+    background: var(--mn-bg-surface) !important;
+    border: 1px solid var(--mn-border) !important;
+    box-shadow: var(--mn-shadow-lg) !important;
+    border-radius: var(--mn-radius-md) !important;
+    color: var(--mn-text-primary) !important;
+}
+
+.ui-keyboard .ui-keyboard-button,
+.ui-keyboard .ui-state-default {
+    background: var(--mn-bg-tertiary) !important;
+    border: 1px solid var(--mn-border) !important;
+    color: var(--mn-text-primary) !important;
+    border-radius: var(--mn-radius-sm) !important;
+}
+
+.ui-keyboard .ui-keyboard-button:hover,
+.ui-keyboard .ui-state-hover {
+    background: var(--mn-bg-elevated) !important;
+    border-color: var(--mn-border-accent) !important;
+    color: #fff !important;
+}
+
+.ui-keyboard .ui-keyboard-button.ui-keyboard-actionkey,
+.ui-keyboard .ui-keyboard-button.ui-state-active,
+.ui-keyboard .ui-state-active {
+    background: var(--mn-accent-subtle) !important;
+    border-color: var(--mn-accent) !important;
+    color: #fff !important;
+}
+
+.ui-keyboard .ui-keyboard-preview {
+    background: var(--mn-bg-secondary) !important;
+    border: 1px solid var(--mn-border) !important;
+    color: var(--mn-text-primary) !important;
 }
 
 /* Flash messages */
