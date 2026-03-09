@@ -468,6 +468,13 @@ a:hover {
     z-index: 1;
 }
 
+/* Modals are rendered inside main wrapper on some pages.
+   Raise wrapper layer while modal is open so dialogs are never hidden by header. */
+body.modal-open .wt-main-wrapper,
+body.modal-open [dir] .wt-main-wrapper {
+    z-index: 200 !important;
+}
+
 .wt-main-container,
 [dir] .wt-main-container {
     background-color: transparent !important;
@@ -1322,6 +1329,31 @@ input[type="button"]:hover {
     opacity: 0.6;
 }
 
+/* Keep popups above the sticky/glass header on all pages */
+.modal,
+.modal.show,
+.popover,
+.tooltip,
+.ui-dialog,
+.ui-datepicker,
+.autocomplete-suggestions {
+    z-index: 3000 !important;
+}
+
+.modal-backdrop,
+.modal.show ~ .modal-backdrop,
+body.modal-open .modal-backdrop.show {
+    z-index: 2990 !important;
+}
+
+/* Form widgets that render detached dropdown popups */
+.select2-container--open,
+.select2-container--open .select2-dropdown,
+.ts-dropdown,
+.ts-dropdown-content {
+    z-index: 3010 !important;
+}
+
 /* Fix orphaned modal backdrop - hide when no modal is open */
 body:not(.modal-open) .modal-backdrop,
 html:not(:has(.modal.show)) .modal-backdrop,
@@ -1342,7 +1374,7 @@ body.modal-open .modal-backdrop.show {
     pointer-events: auto;
     display: block !important;
     opacity: 0.6 !important;
-    z-index: 1040 !important;
+    z-index: 2990 !important;
 }
 
 /* Push add-fact form below header */
