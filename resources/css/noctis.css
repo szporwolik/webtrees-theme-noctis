@@ -2254,9 +2254,61 @@ body.modal-open .modal-backdrop.show {
 }
 
 /* On-screen keyboard */
+.wt-osk {
+    z-index: 4200 !important;
+    background: var(--mn-bg-surface) !important;
+    border: 1px solid var(--mn-border) !important;
+    border-radius: var(--mn-radius-md) !important;
+    box-shadow: var(--mn-shadow-lg) !important;
+    color: var(--mn-text-primary) !important;
+}
+
+.wt-osk .card-header {
+    background: var(--mn-bg-tertiary) !important;
+    border-bottom: 1px solid var(--mn-border) !important;
+    color: var(--mn-text-primary) !important;
+}
+
 .wt-osk-keys {
-    background: var(--mn-bg-surface);
-    border: 1px solid var(--mn-border);
+    background: var(--mn-bg-surface) !important;
+    border: 1px solid var(--mn-border) !important;
+    color: var(--mn-text-primary) !important;
+}
+
+.wt-osk-group {
+    background: transparent !important;
+}
+
+.wt-osk-key {
+    background: var(--mn-bg-tertiary) !important;
+    border: 1px solid var(--mn-border) !important;
+    border-radius: var(--mn-radius-sm) !important;
+    color: var(--mn-text-primary) !important;
+    transition: background var(--mn-transition-fast), border-color var(--mn-transition-fast), color var(--mn-transition-fast);
+}
+
+.wt-osk-key:hover {
+    background: var(--mn-bg-elevated) !important;
+    border-color: var(--mn-border-accent) !important;
+    color: #fff !important;
+}
+
+.wt-osk-key-shift {
+    color: var(--mn-text-muted) !important;
+}
+
+.wt-osk-keys.shifted .wt-osk-key {
+    color: var(--mn-text-muted) !important;
+}
+
+.wt-osk-keys.shifted .wt-osk-key-shift {
+    color: var(--mn-text-primary) !important;
+}
+
+/* Keep keyboard above sticky header when open (keyboard lives in main wrapper stacking context) */
+body:has(.wt-osk[style*="display: block"]) .wt-main-wrapper,
+body:has(.wt-osk[style*="display:block"]) .wt-main-wrapper {
+    z-index: 220 !important;
 }
 
 /* jQuery UI Datepicker (calendar popup) */
