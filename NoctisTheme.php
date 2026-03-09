@@ -26,9 +26,10 @@ class NoctisTheme extends MinimalTheme implements ModuleThemeInterface, ModuleCu
     use ModuleFooterTrait;
 
     public const CUSTOM_AUTHOR = 'Szymon Porwolik';
-    public const CUSTOM_VERSION = '1.0.0';
+    public const CUSTOM_VERSION = '0.0.1';
     public const AUTHOR_WEBSITE = 'https://szymon.porwolik.com';
     public const CUSTOM_SUPPORT_URL = 'https://github.com/szporwolik/webtrees-theme-noctis';
+    public const CUSTOM_LATEST_VERSION_URL = 'https://raw.githubusercontent.com/szporwolik/webtrees-theme-noctis/main/latest-version.txt';
 
     /**
      * {@inheritDoc}
@@ -73,6 +74,15 @@ class NoctisTheme extends MinimalTheme implements ModuleThemeInterface, ModuleCu
     public function customModuleSupportUrl(): string
     {
         return self::CUSTOM_SUPPORT_URL;
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see \Fisharebest\Webtrees\Module\ModuleCustomInterface::customModuleLatestVersionUrl()
+     */
+    public function customModuleLatestVersionUrl(): string
+    {
+        return self::CUSTOM_LATEST_VERSION_URL;
     }
 
     /**

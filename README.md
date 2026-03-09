@@ -3,6 +3,7 @@
 [![release](https://img.shields.io/github/v/release/szporwolik/webtrees-theme-noctis?label=release&color=1f6feb)](https://github.com/szporwolik/webtrees-theme-noctis/releases)
 [![webtrees](https://img.shields.io/badge/webtrees-v2.2.x-5cb85c)](https://github.com/fisharebest/webtrees)
 [![downloads](https://img.shields.io/github/downloads/szporwolik/webtrees-theme-noctis/total?label=downloads&color=5cb85c)](https://github.com/szporwolik/webtrees-theme-noctis/releases)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 A modern, handcrafted dark theme for [webtrees](https://webtrees.net/) — the leading open-source genealogy application.
 
@@ -90,6 +91,10 @@ Built with care for aesthetics, accessibility, and performance. Follows 2026 des
             ├── footer.phtml
             └── footer-credits.phtml
 ```
+
+## Contributing
+
+This is a personal project. Issues are welcome, but pull requests are not accepted.
 
 ## License
 
