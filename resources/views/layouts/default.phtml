@@ -1,0 +1,80 @@
+<?php
+
+/**
+ * Noctis Theme - Main layout
+ *
+ * A modern dark layout for webtrees with sticky header,
+ * responsive navigation and clean structure.
+ */
+
+use Fisharebest\Webtrees\Http\RequestHandlers\WebmanifestJson;
+use Fisharebest\Webtrees\I18N;
+use Fisharebest\Webtrees\Module\ModuleThemeInterface;
+use Fisharebest\Webtrees\Registry;
+use Fisharebest\Webtrees\Tree;
+use Fisharebest\Webtrees\Validator;
+use Psr\Http\Message\ServerRequestInterface;
+
+/**
+ * @var string                 $content
+ * @var ServerRequestInterface $request
+ * @var string                 $title
+ * @var Tree                   $tree
+ */
+
+?>
+
+<!DOCTYPE html>
+<html dir="<?= I18N::locale()->direction() ?>" lang="<?= I18N::locale()->languageTag() ?>" data-bs-theme="dark">
+    <head>
+        <?= view(Registry::container()->get(ModuleThemeInterface::class)->name() . '::layouts/head/meta', [
+            'meta_robots' => e($meta_robots ?? 'noindex'),
+            'meta_description' => $meta_description ?? ''
+        ]); ?>
+        <?= view(Registry::container()->get(ModuleThemeInterface::class)->name() . '::layouts/head/title', ['tree' => $tree, 'title' => $title]); ?>
+        <?= view(Registry::container()->get(ModuleThemeInterface::class)->name() . '::layouts/head/favicons'); ?>
+
+        <link rel="manifest" href="<?= e(route(WebmanifestJson::class)) ?>">
+
+        <?= view(Registry::container()->get(ModuleThemeInterface::class)->name() . '::layouts/head/stylesheets'); ?>
+    </head>
+
+    <body class="wt-global mn-theme-noctis wt-route-<?= e(basename(strtr(Validator::attributes($request)->route()->name ?? '/', ['\\' => '/']))) ?>">
+        <header class="wt-header-wrapper d-print-none sticky-lg-top">
+            <div class="container wt-header-container">
+                <div class="wt-header-content navbar navbar-expand-md navbar-dark d-flex justify-content-between">
+                    <div class="mn-header-start d-flex flex-row align-items-center">
+                        <?= view(Registry::container()->get(ModuleThemeInterface::class)->name() . '::layouts/body/accessibility'); ?>
+                        <?= view(Registry::container()->get(ModuleThemeInterface::class)->name() . '::layouts/body/navbar-toggler-primary'); ?>
+                        <?php if ($tree !== null) : ?>
+                            <?= view(Registry::container()->get(ModuleThemeInterface::class)->name() . '::layouts/body/site-title', ['tree' => $tree]); ?>
+                        <?php endif ?>
+                        <?= view(Registry::container()->get(ModuleThemeInterface::class)->name() . '::layouts/body/navbar-toggler-secondary'); ?>
+                    </div>
+                    <div class="mn-header-end collapse navbar-collapse d-none d-flex flex-lg-row flex-column justify-content-end">
+                        <?= view(Registry::container()->get(ModuleThemeInterface::class)->name() . '::layouts/body/secondary-navigation', ['tree' => $tree]); ?>
+                        <?php if ($tree !== null) : ?>
+                            <?= view(Registry::container()->get(ModuleThemeInterface::class)->name() . '::layouts/body/header-search', ['tree' => $tree]); ?>
+                        <?php endif ?>
+                    </div>
+                </div>
+                <?php if ($tree !== null) : ?>
+                    <?= view(Registry::container()->get(ModuleThemeInterface::class)->name() . '::layouts/body/primary-navigation', ['tree' => $tree]); ?>
+                <?php endif ?>
+                <?= view(Registry::container()->get(ModuleThemeInterface::class)->name() . '::layouts/body/mobile-navigation', ['tree' => $tree]); ?>
+            </div>
+        </header>
+
+        <main id="content" class="wt-main-wrapper">
+            <?= view(Registry::container()->get(ModuleThemeInterface::class)->name() . '::layouts/body/flash-messages'); ?>
+            <div class="container wt-main-container">
+                <?= $content ?>
+            </div>
+        </main>
+
+        <?= view(Registry::container()->get(ModuleThemeInterface::class)->name() . '::theme/footer'); ?>
+
+        <?= view(Registry::container()->get(ModuleThemeInterface::class)->name() . '::layouts/body/scripts'); ?>
+    </body>
+
+</html>

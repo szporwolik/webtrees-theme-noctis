@@ -1,0 +1,2710 @@
+/*
+ * Noctis Theme for webtrees
+ * A modern dark theme following 2026 design trends
+ * Author: Szymon Porwolik (szymon.porwolik.com)
+ *
+ * Design: deep blue-black palette, glassmorphism accents,
+ * subtle gradients, refined typography, smooth transitions
+ */
+
+/* ============================================================
+   CSS CUSTOM PROPERTIES
+   ============================================================ */
+:root {
+    /* Core palette */
+    --mn-bg-primary: #0b0e17;
+    --mn-bg-secondary: #111827;
+    --mn-bg-tertiary: #1a2035;
+    --mn-bg-surface: #1e2640;
+    --mn-bg-elevated: #243052;
+
+    /* Accent colors */
+    --mn-accent: #7c6ef0;
+    --mn-accent-hover: #9589f5;
+    --mn-accent-subtle: rgba(124, 110, 240, 0.12);
+    --mn-accent-glow: rgba(124, 110, 240, 0.25);
+    --mn-accent-secondary: #38bdf8;
+    --mn-accent-warm: #f472b6;
+
+    /* Text */
+    --mn-text-primary: #e8eaf0;
+    --mn-text-secondary: #94a3b8;
+    --mn-text-muted: #64748b;
+    --mn-text-link: #a5b4fc;
+    --mn-text-link-hover: #c7d2fe;
+
+    /* Borders */
+    --mn-border: rgba(148, 163, 184, 0.12);
+    --mn-border-subtle: rgba(148, 163, 184, 0.06);
+    --mn-border-accent: rgba(124, 110, 240, 0.3);
+
+    /* Glass effect */
+    --mn-glass-bg: rgba(17, 24, 39, 0.7);
+    --mn-glass-border: rgba(148, 163, 184, 0.1);
+    --mn-glass-blur: 16px;
+
+    /* Shadows */
+    --mn-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
+    --mn-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
+    --mn-shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.6);
+    --mn-shadow-glow: 0 0 20px var(--mn-accent-glow);
+
+    /* Radius */
+    --mn-radius-sm: 6px;
+    --mn-radius-md: 10px;
+    --mn-radius-lg: 16px;
+    --mn-radius-xl: 24px;
+
+    /* Transitions */
+    --mn-transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    --mn-transition: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+    --mn-transition-slow: 400ms cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* Chart lines (webtrees pedigree connector variable) */
+    --chart-line: solid rgba(148, 163, 184, 0.6) 2px;
+    --chart-line-radius: 1rem;
+}
+
+/* ============================================================
+   GLOBAL & BODY
+   ============================================================ */
+html {
+    scroll-behavior: smooth;
+    background-color: var(--mn-bg-primary) !important;
+}
+
+/* Use [dir] prefix to match webtrees compiled CSS specificity (RTLCSS adds [dir]).
+   Without this, [dir] .wt-global beats our plain body selector. */
+body,
+[dir] body,
+.wt-global,
+[dir] .wt-global,
+::backdrop {
+    background-color: var(--mn-bg-primary) !important;
+    color: var(--mn-text-primary) !important;
+}
+
+body {
+    font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* ============================================================
+   AMBIENT AURORA — subtle animated background glow
+   Injected as a fixed DOM element via JS (body pseudo-elements
+   with z-index:-1 are invisible behind opaque body bg).
+   ============================================================ */
+.mn-aurora {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.mn-aurora-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    will-change: transform;
+    opacity: 0;
+    animation: mn-aurora-in 3s ease forwards;
+}
+
+.mn-aurora-blob--1 {
+    width: 60vw;
+    height: 60vh;
+    top: -15vh;
+    left: -10vw;
+    background: radial-gradient(circle, rgba(124, 110, 240, 0.20) 0%, transparent 70%);
+    animation: mn-aurora-in 3s ease forwards, mn-aurora-1 50s ease-in-out infinite;
+}
+
+.mn-aurora-blob--2 {
+    width: 55vw;
+    height: 55vh;
+    bottom: -10vh;
+    right: -10vw;
+    background: radial-gradient(circle, rgba(56, 189, 248, 0.15) 0%, transparent 70%);
+    animation: mn-aurora-in 3s ease 0.5s forwards, mn-aurora-2 60s ease-in-out infinite;
+}
+
+.mn-aurora-blob--3 {
+    width: 40vw;
+    height: 40vh;
+    top: 50%;
+    left: 40%;
+    background: radial-gradient(circle, rgba(244, 114, 182, 0.10) 0%, transparent 70%);
+    animation: mn-aurora-in 3s ease 1s forwards, mn-aurora-3 70s ease-in-out infinite;
+}
+
+@keyframes mn-aurora-in {
+    to { opacity: 1; }
+}
+
+@keyframes mn-aurora-1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25%      { transform: translate(10vw, 15vh) scale(1.1); }
+    50%      { transform: translate(-5vw, 10vh) scale(0.95); }
+    75%      { transform: translate(12vw, -8vh) scale(1.05); }
+}
+
+@keyframes mn-aurora-2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33%      { transform: translate(-12vw, -10vh) scale(1.08); }
+    66%      { transform: translate(8vw, -15vh) scale(0.92); }
+}
+
+@keyframes mn-aurora-3 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    20%      { transform: translate(-15vw, 8vh) scale(1.1); }
+    40%      { transform: translate(10vw, -12vh) scale(0.9); }
+    60%      { transform: translate(-8vw, -5vh) scale(1.15); }
+    80%      { transform: translate(5vw, 10vh) scale(0.95); }
+}
+
+/* Hide aurora during print */
+@media print {
+    .mn-aurora { display: none; }
+}
+
+/* Override Bootstrap CSS variables at root level.
+   This CSS only loads when Noctis is the active theme,
+   so no selector guard is needed. */
+:root {
+    --bs-body-bg: var(--mn-bg-primary);
+    --bs-body-color: var(--mn-text-primary);
+    --bs-emphasis-color: var(--mn-text-primary);
+    --bs-secondary-bg: var(--mn-bg-tertiary);
+    --bs-tertiary-bg: var(--mn-bg-surface);
+    --bs-secondary-color: var(--mn-text-secondary);
+    --bs-tertiary-color: var(--mn-text-muted);
+    --bs-border-color: var(--mn-border);
+    --bs-border-color-translucent: var(--mn-border);
+    --bs-link-color: var(--mn-text-link);
+    --bs-link-hover-color: var(--mn-text-link-hover);
+    --bs-code-color: #c4b5fd;
+    --bs-heading-color: var(--mn-text-primary);
+    --bs-dropdown-bg: var(--mn-bg-surface);
+    --bs-dropdown-color: var(--mn-text-primary);
+    --bs-dropdown-border-color: var(--mn-border);
+    --bs-dropdown-link-color: var(--mn-text-secondary);
+    --bs-dropdown-link-hover-color: var(--mn-text-primary);
+    --bs-dropdown-link-hover-bg: var(--mn-accent-subtle);
+    --bs-dropdown-link-active-bg: var(--mn-accent);
+    --bs-dropdown-link-active-color: #fff;
+    --bs-card-bg: var(--mn-bg-secondary);
+    --bs-card-border-color: var(--mn-border);
+    --bs-card-cap-bg: var(--mn-bg-tertiary);
+    --bs-card-color: var(--mn-text-primary);
+
+    /* Bootstrap 5 text-emphasis colors (dark-mode safe) */
+    --bs-success-text-emphasis: #4ade80;
+    --bs-danger-text-emphasis: #f87171;
+    --bs-warning-text-emphasis: #facc15;
+    --bs-info-text-emphasis: #38bdf8;
+    --bs-primary-text-emphasis: #a5b4fc;
+    --bs-secondary-text-emphasis: var(--mn-text-secondary);
+    --bs-light-text-emphasis: var(--mn-text-primary);
+    --bs-dark-text-emphasis: var(--mn-text-primary);
+
+    /* Bootstrap 5 subtle backgrounds (dark-mode safe) */
+    --bs-success-bg-subtle: rgba(34, 197, 94, 0.15);
+    --bs-danger-bg-subtle: rgba(239, 68, 68, 0.15);
+    --bs-warning-bg-subtle: rgba(234, 179, 8, 0.15);
+    --bs-info-bg-subtle: rgba(56, 189, 248, 0.15);
+    --bs-primary-bg-subtle: rgba(124, 110, 240, 0.15);
+
+    /* Bootstrap 5 subtle borders (dark-mode safe) */
+    --bs-success-border-subtle: rgba(34, 197, 94, 0.3);
+    --bs-danger-border-subtle: rgba(239, 68, 68, 0.3);
+    --bs-warning-border-subtle: rgba(234, 179, 8, 0.3);
+    --bs-info-border-subtle: rgba(56, 189, 248, 0.3);
+    --bs-primary-border-subtle: rgba(124, 110, 240, 0.3);
+
+    color-scheme: dark;
+}
+
+::selection {
+    background: var(--mn-accent);
+    color: #fff;
+}
+
+/* ============================================================
+   TYPOGRAPHY
+   ============================================================ */
+h1, h2, h3, h4, h5, h6 {
+    color: var(--mn-text-primary);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
+
+a {
+    color: var(--mn-text-link);
+    text-decoration: none;
+    transition: color var(--mn-transition-fast);
+}
+
+a:hover {
+    color: var(--mn-text-link-hover);
+    text-decoration: none;
+}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+.wt-header-wrapper {
+    background: linear-gradient(180deg, rgba(17, 24, 39, 0.95) 0%, rgba(11, 14, 23, 0.90) 100%);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: none;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
+    z-index: 100;
+    position: relative;
+}
+
+.wt-header-container {
+    padding-top: 0.6rem;
+    padding-bottom: 0.45rem;
+}
+
+/* Site title with genealogy tree icon */
+.wt-site-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+}
+
+.wt-site-title::before {
+    content: '';
+    display: inline-block;
+    width: 26px;
+    height: 26px;
+    flex-shrink: 0;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64' fill='none'%3E%3Cpath d='M32 56c0-8-6-12-14-14m14 14c0-8 6-12 14-14' stroke='%237c6ef0' stroke-width='2.5' stroke-linecap='round'/%3E%3Cpath d='M32 56V36' stroke='%237c6ef0' stroke-width='2.5' stroke-linecap='round'/%3E%3Cpath d='M32 36c0-6-8-10-16-12m16 12c0-6 8-10 16-12' stroke='%23a5b4fc' stroke-width='2' stroke-linecap='round'/%3E%3Cpath d='M32 36V20' stroke='%237c6ef0' stroke-width='2.5' stroke-linecap='round'/%3E%3Ccircle cx='32' cy='14' r='6' stroke='%237c6ef0' stroke-width='2' fill='rgba(124,110,240,0.15)'/%3E%3Ccircle cx='16' cy='22' r='4.5' stroke='%2338bdf8' stroke-width='1.5' fill='rgba(56,189,248,0.12)'/%3E%3Ccircle cx='48' cy='22' r='4.5' stroke='%23f472b6' stroke-width='1.5' fill='rgba(244,114,182,0.12)'/%3E%3Ccircle cx='18' cy='40' r='4' stroke='%2338bdf8' stroke-width='1.5' fill='rgba(56,189,248,0.10)'/%3E%3Ccircle cx='46' cy='40' r='4' stroke='%23f472b6' stroke-width='1.5' fill='rgba(244,114,182,0.10)'/%3E%3C/svg%3E") no-repeat center / contain;
+    opacity: 0.85;
+    transition: opacity var(--mn-transition-fast), transform var(--mn-transition);
+}
+
+.wt-site-title:hover::before {
+    opacity: 1;
+    transform: scale(1.1) rotate(-3deg);
+}
+
+.wt-site-title a {
+    color: #f1f5f9;
+    text-decoration: none;
+    transition: color var(--mn-transition-fast);
+}
+
+.wt-site-title a:hover {
+    color: var(--mn-accent-hover);
+}
+
+/* ============================================================
+   NAVIGATION — Primary (Genealogy Menu)
+   ============================================================ */
+.wt-primary-navigation {
+    border-top: none;
+    margin-top: 0.15rem;
+    padding-top: 0;
+    justify-content: flex-start !important;
+}
+
+/* Nudge the nav flex container to the left */
+.wt-genealogy-menu {
+    gap: 0.15rem;
+}
+
+.wt-genealogy-menu .nav-link {
+    color: var(--mn-text-secondary);
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    padding: 0.4rem 0.7rem;
+    border-radius: var(--mn-radius-sm);
+    transition: all var(--mn-transition-fast);
+    position: relative;
+}
+
+.wt-genealogy-menu .nav-link:hover {
+    color: #fff;
+    background: rgba(124, 110, 240, 0.10);
+}
+
+.wt-genealogy-menu .nav-link.active {
+    color: #fff;
+    background: rgba(124, 110, 240, 0.12);
+}
+
+.wt-genealogy-menu .nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1.25rem;
+    height: 2px;
+    background: var(--mn-accent);
+    border-radius: 1px;
+}
+
+/* Dropdown caret subtle */
+.wt-genealogy-menu .dropdown-toggle::after {
+    opacity: 0.5;
+    margin-left: 0.3rem;
+    transition: opacity var(--mn-transition-fast);
+}
+
+.wt-genealogy-menu .dropdown-toggle:hover::after {
+    opacity: 0.9;
+}
+
+/* ============================================================
+   NAVIGATION — Secondary (User Menu)
+   ============================================================ */
+.wt-secondary-navigation {
+    justify-content: flex-end !important;
+}
+
+.wt-user-menu {
+    gap: 0.1rem;
+}
+
+.wt-user-menu .nav-link {
+    color: var(--mn-text-muted);
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    padding: 0.35rem 0.55rem;
+    border-radius: var(--mn-radius-sm);
+    transition: all var(--mn-transition-fast);
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.wt-user-menu .nav-link:hover {
+    color: #fff;
+    background: rgba(124, 110, 240, 0.08);
+}
+
+/* User avatar next to "My pages" */
+.mn-user-avatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 1.5px solid var(--mn-accent);
+    object-fit: cover;
+    flex-shrink: 0;
+    opacity: 0.9;
+    transition: opacity var(--mn-transition-fast), border-color var(--mn-transition-fast), transform var(--mn-transition-fast);
+}
+
+.menu-mymenu > .nav-link:hover .mn-user-avatar {
+    opacity: 1;
+    border-color: var(--mn-accent-hover);
+    transform: scale(1.08);
+}
+
+/* ============================================================
+   DROPDOWN MENUS
+   ============================================================ */
+.dropdown-menu {
+    background-color: var(--mn-bg-surface) !important;
+    backdrop-filter: blur(var(--mn-glass-blur));
+    -webkit-backdrop-filter: blur(var(--mn-glass-blur));
+    border: 1px solid var(--mn-border) !important;
+    border-radius: var(--mn-radius-md);
+    box-shadow: var(--mn-shadow-lg);
+    padding: 0.5rem;
+    animation: mn-dropdown-in 200ms ease-out;
+    color: var(--mn-text-primary) !important;
+}
+
+@keyframes mn-dropdown-in {
+    from { opacity: 0; transform: translateY(-6px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.dropdown-item {
+    color: var(--mn-text-secondary) !important;
+    padding: 0.45rem 0.85rem;
+    border-radius: var(--mn-radius-sm);
+    font-size: 0.875rem;
+    transition: all var(--mn-transition-fast);
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus {
+    color: var(--mn-text-primary) !important;
+    background-color: var(--mn-accent-subtle) !important;
+}
+
+.dropdown-item.active,
+.dropdown-item:active {
+    background-color: var(--mn-accent) !important;
+    color: #fff !important;
+}
+
+.dropdown-divider {
+    border-color: var(--mn-border) !important;
+}
+
+/* ============================================================
+   MAIN CONTENT
+   ============================================================ */
+.wt-main-wrapper,
+[dir] .wt-main-wrapper {
+    min-height: calc(100vh - 160px);
+    padding: 2rem 0;
+    background-color: transparent !important;
+    position: relative;
+    z-index: 1;
+}
+
+.wt-main-container,
+[dir] .wt-main-container {
+    background-color: transparent !important;
+}
+
+.wt-footers,
+[dir] .wt-footers {
+    background-color: transparent !important;
+}
+
+/* Page content wrapper */
+.wt-page-content {
+    background: transparent;
+    color: var(--mn-text-primary);
+}
+
+/* Generic chart container class */
+.gchart {
+    background: transparent;
+    color: var(--mn-text-primary);
+}
+
+/* Page titles */
+.wt-page-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--mn-text-primary);
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.02em;
+}
+
+/* ============================================================
+   CARDS & PANELS
+   ============================================================ */
+.card {
+    background: var(--mn-bg-secondary);
+    border: 1px solid var(--mn-border);
+    border-radius: var(--mn-radius-md);
+    box-shadow: var(--mn-shadow-sm);
+    transition: box-shadow var(--mn-transition), border-color var(--mn-transition);
+}
+
+.card:hover {
+    box-shadow: var(--mn-shadow-md);
+    border-color: var(--mn-border-accent);
+}
+
+.card-header {
+    background: var(--mn-bg-tertiary);
+    border-bottom: 1px solid var(--mn-border);
+    color: var(--mn-text-primary);
+    font-weight: 600;
+    padding: 0.85rem 1.15rem;
+    border-radius: var(--mn-radius-md) var(--mn-radius-md) 0 0;
+}
+
+.card-body {
+    padding: 1.15rem;
+    color: var(--mn-text-primary);
+}
+
+.card-footer {
+    background: var(--mn-bg-tertiary);
+    border-top: 1px solid var(--mn-border);
+    padding: 0.75rem 1.15rem;
+}
+
+/* ============================================================
+   TABLES — Facts, Data
+   ============================================================ */
+.table {
+    --bs-table-bg: transparent;
+    --bs-table-color: var(--mn-text-primary);
+    --bs-table-border-color: var(--mn-border);
+    --bs-table-striped-bg: rgba(124, 110, 240, 0.04);
+    --bs-table-hover-bg: rgba(124, 110, 240, 0.08);
+    --bs-table-hover-color: var(--mn-text-primary);
+}
+
+.table thead th {
+    background: var(--mn-bg-tertiary);
+    color: var(--mn-text-secondary);
+    font-weight: 600;
+    font-size: 0.8125rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-bottom: 2px solid var(--mn-border);
+}
+
+.table > :not(:first-child) {
+    border-top: 1px solid var(--mn-border);
+}
+
+/* webtrees facts table */
+.wt-facts-table td {
+    border-color: var(--mn-border);
+    padding: 0.65rem 0.85rem;
+}
+
+.wt-facts-table .wt-facts-label {
+    background: var(--mn-bg-tertiary);
+    color: var(--mn-text-secondary);
+    font-weight: 500;
+    width: 25%;
+    vertical-align: top;
+}
+
+.wt-facts-table .wt-facts-value {
+    background: var(--mn-bg-secondary);
+}
+
+/* ============================================================
+   FORMS
+   ============================================================ */
+.form-control,
+.form-select,
+select:not(.leaflet-control-layers-selector) {
+    background-color: var(--mn-bg-tertiary) !important;
+    border: 1px solid var(--mn-border) !important;
+    color: var(--mn-text-primary) !important;
+    border-radius: var(--mn-radius-sm);
+    padding: 0.55rem 0.85rem;
+    transition: border-color var(--mn-transition-fast), box-shadow var(--mn-transition-fast);
+}
+
+/* Select dropdown arrow — light chevron */
+.form-select:not(.tom-select),
+select:not(.leaflet-control-layers-selector):not(.tom-select):not(.tomselected) {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='none' stroke='%2394a3b8' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3E%3C/svg%3E") !important;
+    background-repeat: no-repeat !important;
+    background-position: right 0.75rem center !important;
+    background-size: 14px 10px !important;
+    padding-right: 2.25rem;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+/* Native <option> elements inside <select> */
+option,
+select option {
+    background-color: var(--mn-bg-surface) !important;
+    color: var(--mn-text-primary) !important;
+}
+
+.form-control:focus,
+.form-select:focus,
+select:focus {
+    background-color: var(--mn-bg-surface) !important;
+    border-color: var(--mn-accent) !important;
+    color: var(--mn-text-primary) !important;
+    box-shadow: 0 0 0 3px var(--mn-accent-glow);
+    outline: none;
+}
+
+.form-control::placeholder {
+    color: var(--mn-text-muted);
+}
+
+.form-label {
+    color: var(--mn-text-secondary);
+    font-weight: 500;
+    font-size: 0.875rem;
+}
+
+.form-check-input {
+    background-color: var(--mn-bg-tertiary) !important;
+    border-color: var(--mn-border) !important;
+    cursor: pointer;
+}
+
+.form-check-input:checked {
+    background-color: var(--mn-accent) !important;
+    border-color: var(--mn-accent) !important;
+}
+
+.form-check-input:focus {
+    box-shadow: 0 0 0 3px var(--mn-accent-glow) !important;
+    border-color: var(--mn-accent) !important;
+}
+
+/* Radio buttons — accent ring when selected */
+.form-check-input[type="radio"] {
+    border-width: 2px;
+}
+
+.form-check-input[type="radio"]:checked {
+    background-image: none !important;
+    border-width: 5px;
+    border-color: var(--mn-accent) !important;
+    background-color: var(--mn-bg-primary) !important;
+}
+
+/* Check labels */
+.form-check-label {
+    color: var(--mn-text-secondary);
+    cursor: pointer;
+    transition: color var(--mn-transition-fast);
+}
+
+.form-check-input:checked + .form-check-label {
+    color: var(--mn-text-primary);
+}
+
+/* Browser autofill override — kills yellow/olive backgrounds */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+select:-webkit-autofill {
+    -webkit-text-fill-color: var(--mn-text-primary) !important;
+    -webkit-box-shadow: 0 0 0 1000px var(--mn-bg-tertiary) inset !important;
+    box-shadow: 0 0 0 1000px var(--mn-bg-tertiary) inset !important;
+    border-color: var(--mn-border) !important;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+/* ============================================================
+   LOGIN PAGE
+   ============================================================ */
+.wt-login-box {
+    background: var(--mn-bg-secondary) !important;
+    border: 1px solid var(--mn-border) !important;
+    border-radius: var(--mn-radius-lg);
+    box-shadow: var(--mn-shadow-lg);
+    padding: 2rem !important;
+    max-width: 440px;
+    margin: 2rem auto;
+}
+
+.wt-login-box .card {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.wt-login-box .card-body {
+    background: transparent !important;
+}
+
+.wt-login-box .card-header {
+    background: transparent !important;
+    border-bottom: 1px solid var(--mn-border) !important;
+    text-align: center;
+    font-size: 1.1rem;
+}
+
+/* Login form inputs */
+form[name="login"] .form-control,
+.wt-login-box .form-control {
+    background-color: var(--mn-bg-tertiary) !important;
+    border: 1px solid var(--mn-border) !important;
+    color: var(--mn-text-primary) !important;
+}
+
+form[name="login"] .form-control:focus,
+.wt-login-box .form-control:focus {
+    border-color: var(--mn-accent) !important;
+    box-shadow: 0 0 0 3px var(--mn-accent-glow) !important;
+}
+
+/* Password toggle button inside login */
+.input-group .btn-outline-secondary,
+.input-group .btn[type="button"] {
+    background: var(--mn-bg-surface) !important;
+    border-color: var(--mn-border) !important;
+    color: var(--mn-text-secondary) !important;
+}
+
+.input-group .btn-outline-secondary:hover,
+.input-group .btn[type="button"]:hover {
+    background: var(--mn-bg-elevated) !important;
+    color: var(--mn-text-primary) !important;
+}
+
+/* Register / Forgot password links on login page */
+.wt-login-option a {
+    color: var(--mn-text-link);
+}
+
+.wt-login-option a:hover {
+    color: var(--mn-text-link-hover);
+}
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+
+/* Bare .btn without variant — ensure it's not white */
+.btn:not(.btn-primary):not(.btn-secondary):not(.btn-success):not(.btn-danger):not(.btn-warning):not(.btn-info):not(.btn-light):not(.btn-dark):not(.btn-link):not([class*="btn-outline"]) {
+    background-color: var(--mn-bg-surface) !important;
+    border: 1px solid var(--mn-border) !important;
+    color: var(--mn-text-secondary) !important;
+}
+
+.btn:not(.btn-primary):not(.btn-secondary):not(.btn-success):not(.btn-danger):not(.btn-warning):not(.btn-info):not(.btn-light):not(.btn-dark):not(.btn-link):not([class*="btn-outline"]):hover {
+    background-color: var(--mn-bg-elevated) !important;
+    border-color: var(--mn-border-accent) !important;
+    color: var(--mn-text-primary) !important;
+}
+
+/* Plain <button> and <input> submit/button elements without Bootstrap classes */
+button:not([class*="btn"]),
+input[type="submit"],
+input[type="button"] {
+    background-color: var(--mn-bg-surface) !important;
+    border: 1px solid var(--mn-border) !important;
+    color: var(--mn-text-secondary) !important;
+    border-radius: var(--mn-radius-sm);
+    padding: 0.4rem 0.9rem;
+    cursor: pointer;
+}
+
+button:not([class*="btn"]):hover,
+input[type="submit"]:hover,
+input[type="button"]:hover {
+    background-color: var(--mn-bg-elevated) !important;
+    border-color: var(--mn-border-accent) !important;
+    color: var(--mn-text-primary) !important;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--mn-accent), #6558d9);
+    border: none;
+    color: #fff;
+    font-weight: 500;
+    padding: 0.5rem 1.15rem;
+    border-radius: var(--mn-radius-sm);
+    box-shadow: var(--mn-shadow-sm);
+    transition: all var(--mn-transition-fast);
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+    background: linear-gradient(135deg, var(--mn-accent-hover), #7c6ef0);
+    box-shadow: var(--mn-shadow-glow);
+    color: #fff;
+    transform: translateY(-1px);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+.btn-secondary {
+    background: var(--mn-bg-surface);
+    border: 1px solid var(--mn-border);
+    color: var(--mn-text-secondary);
+    font-weight: 500;
+    border-radius: var(--mn-radius-sm);
+    transition: all var(--mn-transition-fast);
+}
+
+.btn-secondary:hover,
+.btn-secondary:focus {
+    background: var(--mn-bg-elevated);
+    border-color: var(--mn-border-accent);
+    color: var(--mn-text-primary);
+}
+
+.btn-outline-secondary {
+    border-color: var(--mn-border);
+    color: var(--mn-text-secondary);
+}
+
+.btn-outline-secondary:hover {
+    background: var(--mn-bg-surface);
+    border-color: var(--mn-accent);
+    color: var(--mn-text-primary);
+}
+
+.btn-outline-primary {
+    border-color: var(--mn-accent);
+    color: var(--mn-accent);
+    background: transparent;
+}
+
+.btn-outline-primary:hover {
+    background: var(--mn-accent);
+    border-color: var(--mn-accent);
+    color: #fff;
+}
+
+.btn-outline-success {
+    --bs-btn-color: #4ade80;
+    --bs-btn-border-color: #22c55e;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #22c55e;
+    --bs-btn-hover-border-color: #22c55e;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #198754;
+    --bs-btn-active-border-color: #198754;
+    border-color: #22c55e !important;
+    color: #4ade80 !important;
+    background: transparent !important;
+}
+
+.btn-outline-success:hover,
+.btn-outline-success:focus {
+    background: #22c55e !important;
+    border-color: #22c55e !important;
+    color: #fff !important;
+}
+
+.btn-outline-danger {
+    --bs-btn-color: #f87171;
+    --bs-btn-border-color: #ef4444;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #ef4444;
+    --bs-btn-hover-border-color: #ef4444;
+    border-color: #ef4444 !important;
+    color: #f87171 !important;
+    background: transparent !important;
+}
+
+.btn-outline-danger:hover,
+.btn-outline-danger:focus {
+    background: #ef4444 !important;
+    border-color: #ef4444 !important;
+    color: #fff !important;
+}
+
+.btn-outline-warning {
+    --bs-btn-color: #facc15;
+    --bs-btn-border-color: #eab308;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #eab308;
+    --bs-btn-hover-border-color: #eab308;
+    border-color: #eab308 !important;
+    color: #facc15 !important;
+    background: transparent !important;
+}
+
+.btn-outline-warning:hover,
+.btn-outline-warning:focus {
+    background: #eab308 !important;
+    border-color: #eab308 !important;
+    color: #fff !important;
+}
+
+.btn-outline-info {
+    --bs-btn-color: var(--mn-accent-secondary);
+    --bs-btn-border-color: var(--mn-accent-secondary);
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: var(--mn-accent-secondary);
+    --bs-btn-hover-border-color: var(--mn-accent-secondary);
+    border-color: var(--mn-accent-secondary) !important;
+    color: var(--mn-accent-secondary) !important;
+    background: transparent !important;
+}
+
+.btn-outline-info:hover,
+.btn-outline-info:focus {
+    background: var(--mn-accent-secondary) !important;
+    border-color: var(--mn-accent-secondary) !important;
+    color: #fff !important;
+}
+
+.btn-link {
+    color: var(--mn-text-link);
+}
+
+.btn-link:hover {
+    color: var(--mn-text-link-hover);
+}
+
+.btn-close {
+    filter: invert(1) grayscale(100%) brightness(150%);
+}
+
+/* Solid Bootstrap button variants */
+.btn-success {
+    --bs-btn-bg: #22c55e;
+    --bs-btn-border-color: #22c55e;
+    --bs-btn-hover-bg: #16a34a;
+    --bs-btn-hover-border-color: #16a34a;
+    --bs-btn-active-bg: #15803d;
+    --bs-btn-active-border-color: #15803d;
+    background-color: #22c55e !important;
+    border-color: #22c55e !important;
+    color: #fff !important;
+}
+
+.btn-success:hover,
+.btn-success:focus {
+    background-color: #16a34a !important;
+    border-color: #16a34a !important;
+}
+
+.btn-danger {
+    background-color: #ef4444 !important;
+    border-color: #ef4444 !important;
+    color: #fff !important;
+}
+
+.btn-danger:hover,
+.btn-danger:focus {
+    background-color: #dc2626 !important;
+    border-color: #dc2626 !important;
+}
+
+.btn-warning {
+    background-color: #eab308 !important;
+    border-color: #eab308 !important;
+    color: #fff !important;
+}
+
+.btn-warning:hover,
+.btn-warning:focus {
+    background-color: #ca8a04 !important;
+    border-color: #ca8a04 !important;
+}
+
+.btn-info {
+    background-color: var(--mn-accent-secondary) !important;
+    border-color: var(--mn-accent-secondary) !important;
+    color: #fff !important;
+}
+
+.btn-info:hover,
+.btn-info:focus {
+    background-color: #0ea5e9 !important;
+    border-color: #0ea5e9 !important;
+}
+
+/* Bootstrap text utility classes — dark-mode overrides */
+.text-success { color: #4ade80 !important; }
+.text-danger  { color: #f87171 !important; }
+.text-warning { color: #facc15 !important; }
+.text-info    { color: #38bdf8 !important; }
+.text-primary { color: var(--mn-accent) !important; }
+.text-secondary { color: var(--mn-text-secondary) !important; }
+.text-dark    { color: var(--mn-text-primary) !important; }
+.text-light   { color: var(--mn-text-primary) !important; }
+.text-body    { color: var(--mn-text-primary) !important; }
+.text-body-secondary { color: var(--mn-text-secondary) !important; }
+.text-body-tertiary  { color: var(--mn-text-muted) !important; }
+.text-body-emphasis  { color: var(--mn-text-primary) !important; }
+.text-muted   { color: var(--mn-text-muted) !important; }
+.text-black   { color: var(--mn-text-primary) !important; }
+.text-white   { color: #fff !important; }
+
+/* Bootstrap background utilities — dark-mode overrides */
+.bg-body      { background-color: var(--mn-bg-primary) !important; }
+.bg-body-secondary { background-color: var(--mn-bg-secondary) !important; }
+.bg-body-tertiary  { background-color: var(--mn-bg-tertiary) !important; }
+.bg-light     { background-color: var(--mn-bg-tertiary) !important; }
+.bg-dark      { background-color: var(--mn-bg-primary) !important; }
+.bg-white     { background-color: var(--mn-bg-secondary) !important; }
+.bg-success   { background-color: #22c55e !important; }
+.bg-danger    { background-color: #ef4444 !important; }
+.bg-warning   { background-color: #eab308 !important; }
+.bg-info      { background-color: #38bdf8 !important; }
+.bg-primary   { background-color: var(--mn-accent) !important; }
+.bg-secondary { background-color: var(--mn-bg-surface) !important; }
+
+/* ============================================================
+   SEARCH FORM IN HEADER
+   ============================================================ */
+.wt-header-search-form {
+    display: flex;
+    align-items: center;
+}
+
+.wt-header-search-form .input-group {
+    flex-wrap: nowrap;
+}
+
+.wt-header-search-form .form-control {
+    background: rgba(26, 32, 53, 0.8);
+    border: 1px solid rgba(148, 163, 184, 0.10);
+    border-right: none;
+    font-size: 0.82rem;
+    border-radius: var(--mn-radius-sm) 0 0 var(--mn-radius-sm) !important;
+    padding: 0.4rem 0.85rem;
+    transition: all var(--mn-transition-fast);
+}
+
+.wt-header-search-form .form-control::placeholder {
+    color: var(--mn-text-muted);
+    font-size: 0.82rem;
+}
+
+.wt-header-search-form .form-control:focus {
+    background: rgba(30, 38, 64, 0.95);
+    border-color: rgba(124, 110, 240, 0.3);
+    box-shadow: 0 0 0 3px rgba(124, 110, 240, 0.08);
+}
+
+.wt-header-search-button {
+    border-radius: 0 var(--mn-radius-sm) var(--mn-radius-sm) 0 !important;
+    padding: 0.4rem 0.7rem;
+    font-size: 0.82rem;
+}
+
+/* ============================================================
+   TABS & NAV TABS
+   ============================================================ */
+.nav-tabs {
+    border-bottom: 1px solid var(--mn-border);
+}
+
+.nav-tabs .nav-link {
+    color: var(--mn-text-muted);
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 0.65rem 1rem;
+    font-weight: 500;
+    font-size: 0.875rem;
+    transition: all var(--mn-transition-fast);
+}
+
+.nav-tabs .nav-link:hover {
+    color: var(--mn-text-primary);
+    border-bottom-color: var(--mn-text-muted);
+}
+
+.nav-tabs .nav-link.active {
+    color: var(--mn-accent);
+    border-bottom-color: var(--mn-accent);
+    background: transparent;
+}
+
+.tab-content {
+    padding-top: 1rem;
+}
+
+/* Nav pills (used in some webtrees pages) */
+.nav-pills .nav-link {
+    color: var(--mn-text-secondary);
+    border-radius: var(--mn-radius-sm);
+    transition: all var(--mn-transition-fast);
+}
+
+.nav-pills .nav-link.active {
+    background: var(--mn-accent);
+    color: #fff;
+}
+
+/* ============================================================
+   BADGES
+   ============================================================ */
+.badge {
+    font-weight: 500;
+    font-size: 0.75rem;
+    letter-spacing: 0.02em;
+    border-radius: var(--mn-radius-sm);
+}
+
+.badge.bg-secondary,
+.badge.bg-dark {
+    background: var(--mn-bg-elevated) !important;
+    color: var(--mn-text-secondary);
+}
+
+.badge.bg-primary {
+    background: var(--mn-accent) !important;
+}
+
+.badge.bg-success {
+    background: #059669 !important;
+}
+
+.badge.bg-danger {
+    background: #dc2626 !important;
+}
+
+.badge.bg-warning {
+    background: #d97706 !important;
+    color: #0b0e17 !important;
+}
+
+.badge.bg-info {
+    background: var(--mn-accent-secondary) !important;
+    color: #0b0e17 !important;
+}
+
+/* ============================================================
+   ALERTS
+   ============================================================ */
+.alert {
+    border-radius: var(--mn-radius-md);
+    border: none;
+    font-size: 0.9rem;
+}
+
+.alert-success {
+    background: rgba(5, 150, 105, 0.15) !important;
+    color: #6ee7b7 !important;
+    border: none !important;
+    border-left: 3px solid #059669 !important;
+}
+
+.alert-danger {
+    background: rgba(220, 38, 38, 0.15) !important;
+    color: #fca5a5 !important;
+    border: none !important;
+    border-left: 3px solid #dc2626 !important;
+}
+
+.alert-warning {
+    background: rgba(217, 119, 6, 0.15) !important;
+    color: #fcd34d !important;
+    border: none !important;
+    border-left: 3px solid #d97706 !important;
+}
+
+.alert-info {
+    background: rgba(56, 189, 248, 0.12) !important;
+    background-color: rgba(56, 189, 248, 0.12) !important;
+    color: #7dd3fc !important;
+    border: none !important;
+    border-left: 3px solid var(--mn-accent-secondary) !important;
+    --bs-alert-bg: rgba(56, 189, 248, 0.12);
+    --bs-alert-color: #7dd3fc;
+    --bs-alert-border-color: transparent;
+}
+
+/* Catch any .alert variant we missed */
+.alert {
+    --bs-alert-bg: var(--mn-bg-tertiary);
+    --bs-alert-color: var(--mn-text-primary);
+    --bs-alert-border-color: var(--mn-border);
+}
+
+/* Bootstrap .bg-info (used as inline "no data" banner, NOT an .alert) */
+.bg-info {
+    background-color: rgba(56, 189, 248, 0.18) !important;
+    color: #e0f2fe !important;
+}
+
+.bg-info.text-white {
+    color: #e0f2fe !important;
+}
+
+/* ============================================================
+   PEDIGREE MAP & PLACE HIERARCHY (webtrees + Vesta)
+   Colors only — no layout/sizing overrides.
+   ============================================================ */
+
+/* Sidebar dark background.
+   The sidebar <ul> also has class .wt-page-options-value which gets
+   border + padding from minimal.min.css and Vesta's theme.css
+   (both loaded separately). Those extra pixels break the Bootstrap
+   col-sm-9 / col-sm-3 grid. Reset them here with high specificity. */
+.wt-map-sidebar,
+[dir] .wt-map-sidebar,
+.wt-map-sidebar.wt-page-options-value {
+    background-color: var(--mn-bg-secondary) !important;
+    border: none !important;
+    padding: 0.25rem !important;
+    box-sizing: border-box !important;
+}
+
+/* Sidebar event items */
+.wt-map-sidebar li {
+    color: var(--mn-text-primary);
+}
+
+.wt-map-sidebar a {
+    color: var(--mn-text-link);
+}
+
+/* Leaflet container background (visible where tiles haven't loaded) */
+.leaflet-container {
+    background-color: var(--mn-bg-primary) !important;
+}
+
+/* Leaflet zoom bar */
+.leaflet-bar,
+.leaflet-bar a {
+    background-color: var(--mn-bg-surface) !important;
+    color: var(--mn-text-primary) !important;
+    border-color: var(--mn-border) !important;
+}
+
+.leaflet-bar a:hover {
+    background-color: var(--mn-bg-elevated) !important;
+}
+
+/* Leaflet attribution */
+.leaflet-control-attribution {
+    background-color: rgba(11, 14, 23, 0.7) !important;
+    color: var(--mn-text-muted) !important;
+}
+
+.leaflet-control-attribution a {
+    color: var(--mn-text-link) !important;
+}
+
+/* Leaflet popups */
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+    background-color: var(--mn-bg-surface) !important;
+    color: var(--mn-text-primary) !important;
+}
+
+.leaflet-popup-content a {
+    color: var(--mn-text-link);
+}
+
+/* ============================================================
+   LIST GROUPS
+   ============================================================ */
+.list-group-item {
+    background: var(--mn-bg-secondary);
+    border-color: var(--mn-border);
+    color: var(--mn-text-primary);
+    transition: background var(--mn-transition-fast);
+}
+
+.list-group-item:hover {
+    background: var(--mn-bg-tertiary);
+}
+
+.list-group-item.active {
+    background: var(--mn-accent);
+    border-color: var(--mn-accent);
+    color: #fff;
+}
+
+/* ============================================================
+   MODALS
+   ============================================================ */
+.modal-content {
+    background: var(--mn-bg-secondary);
+    border: 1px solid var(--mn-border);
+    border-radius: var(--mn-radius-lg);
+    box-shadow: var(--mn-shadow-lg);
+}
+
+.modal-header {
+    border-bottom: 1px solid var(--mn-border);
+    padding: 1.15rem 1.5rem;
+}
+
+.modal-header .modal-title {
+    font-weight: 600;
+    color: var(--mn-text-primary);
+}
+
+.modal-body {
+    padding: 1.5rem;
+}
+
+.modal-footer {
+    border-top: 1px solid var(--mn-border);
+    padding: 1rem 1.5rem;
+}
+
+.modal-backdrop.show {
+    opacity: 0.6;
+}
+
+/* Fix orphaned modal backdrop - hide when no modal is open */
+body:not(.modal-open) .modal-backdrop,
+html:not(:has(.modal.show)) .modal-backdrop,
+.modal-backdrop:not(:has(~ .modal.show)):not(.modal.show ~ *) {
+    display: none !important;
+    pointer-events: none !important;
+    opacity: 0 !important;
+    z-index: -9999 !important;
+}
+
+/* Ensure backdrop doesn't block clicks - only show when modal is truly visible */
+.modal-backdrop {
+    pointer-events: none;
+}
+
+.modal.show ~ .modal-backdrop,
+body.modal-open .modal-backdrop.show {
+    pointer-events: auto;
+    display: block !important;
+    opacity: 0.6 !important;
+    z-index: 1040 !important;
+}
+
+/* Push add-fact form below header */
+.wt-main-wrapper .card:first-child,
+.wt-page-content > .row:first-child {
+    margin-top: 1rem;
+}
+
+/* ============================================================
+   PAGINATION
+   ============================================================ */
+.page-link {
+    background: var(--mn-bg-tertiary);
+    border-color: var(--mn-border);
+    color: var(--mn-text-secondary);
+    border-radius: var(--mn-radius-sm);
+    margin: 0 2px;
+    transition: all var(--mn-transition-fast);
+}
+
+.page-link:hover {
+    background: var(--mn-bg-elevated);
+    border-color: var(--mn-border-accent);
+    color: var(--mn-text-primary);
+}
+
+.page-item.active .page-link {
+    background: var(--mn-accent);
+    border-color: var(--mn-accent);
+    color: #fff;
+}
+
+.page-item.disabled .page-link {
+    background: var(--mn-bg-tertiary);
+    border-color: var(--mn-border-subtle);
+    color: var(--mn-text-muted);
+}
+
+/* ============================================================
+   ACCORDION (BOOTSTRAP 5)
+   ============================================================ */
+.accordion-item {
+    background: var(--mn-bg-secondary);
+    border: 1px solid var(--mn-border);
+}
+
+.accordion-button {
+    background: var(--mn-bg-tertiary);
+    color: var(--mn-text-primary);
+    font-weight: 500;
+    box-shadow: none;
+}
+
+.accordion-button:not(.collapsed) {
+    background: var(--mn-bg-surface);
+    color: var(--mn-accent);
+    box-shadow: none;
+}
+
+.accordion-button::after {
+    filter: invert(1) brightness(1.5);
+}
+
+.accordion-body {
+    background: var(--mn-bg-secondary);
+}
+
+/* ============================================================
+   WEBTREES — CHART BOXES
+   ============================================================ */
+.wt-chart-box {
+    background: var(--mn-bg-secondary) !important;
+    border: 1px solid var(--mn-border) !important;
+    border-radius: var(--mn-radius-sm);
+    box-shadow: var(--mn-shadow-sm);
+    color: var(--mn-text-primary) !important;
+    font-size: 0.8rem;
+    line-height: 1.35;
+}
+
+.wt-chart-box:hover {
+    border-color: var(--mn-border-accent) !important;
+    box-shadow: var(--mn-shadow-md), 0 0 12px rgba(124, 110, 240, 0.08);
+}
+
+/* Name styling */
+.wt-chart-box .wt-chart-box-name,
+.wt-chart-box .wt-chart-box-name a {
+    color: var(--mn-text-primary) !important;
+    font-weight: 600;
+}
+
+.wt-chart-box .wt-chart-box-name a:hover {
+    color: var(--mn-accent) !important;
+}
+
+/* Lifespan & extra info */
+.wt-chart-box .wt-chart-box-lifespan,
+.wt-chart-box .wt-chart-box-extra {
+    color: var(--mn-text-muted) !important;
+}
+
+/* Gendered chart box backgrounds — subtle gradient tint */
+.wt-chart-box-m,
+.wt-chart-box-m[style] {
+    background: linear-gradient(135deg, rgba(56, 189, 248, 0.06) 0%, rgba(56, 189, 248, 0.14) 100%) !important;
+    border-left: 3px solid var(--mn-accent-secondary) !important;
+}
+
+.wt-chart-box-f,
+.wt-chart-box-f[style] {
+    background: linear-gradient(135deg, rgba(244, 114, 182, 0.06) 0%, rgba(244, 114, 182, 0.14) 100%) !important;
+    border-left: 3px solid var(--mn-accent-warm) !important;
+}
+
+.wt-chart-box-u,
+.wt-chart-box-u[style] {
+    background: linear-gradient(135deg, var(--mn-bg-tertiary) 0%, var(--mn-bg-surface) 100%) !important;
+    border-left: 3px solid var(--mn-text-muted) !important;
+}
+
+/* Photos inside chart boxes */
+.wt-chart-box img[src] {
+    border-radius: var(--mn-radius-sm);
+    border: 1.5px solid var(--mn-border);
+    object-fit: cover;
+}
+
+.wt-chart-box:hover img[src] {
+    border-color: var(--mn-border-accent);
+}
+
+/* Silhouette placeholders */
+.wt-chart-box .wt-individual-silhouette-m,
+.wt-chart-box .wt-individual-silhouette-f,
+.wt-chart-box .wt-individual-silhouette-u,
+.wt-chart-box .icon-silhouette-m,
+.wt-chart-box .icon-silhouette-f,
+.wt-chart-box .icon-silhouette-u {
+    opacity: 0.35;
+    filter: brightness(1.4);
+}
+
+/* Chart box icons and action buttons */
+.wt-chart-box .ic,
+.wt-chart-box i {
+    color: var(--mn-text-muted) !important;
+}
+
+.wt-chart-box a:hover i,
+.wt-chart-box a:hover .ic {
+    color: var(--mn-accent) !important;
+}
+
+/* Action icon row (zoom / menu icons) */
+.wt-chart-box .btn-link,
+.wt-chart-box [class*="icon-zoom"],
+.wt-chart-box .dropdown-toggle {
+    color: var(--mn-text-muted) !important;
+}
+
+.wt-chart-box .btn-link:hover,
+.wt-chart-box [class*="icon-zoom"]:hover,
+.wt-chart-box .dropdown-toggle:hover {
+    color: var(--mn-accent) !important;
+}
+
+/* Arrow buttons (expand tree) */
+.wt-chart-box .btn[class*="arrow"],
+.wt-chart-box a[class*="arrow"] {
+    color: var(--mn-text-muted) !important;
+}
+
+.wt-chart-box .btn[class*="arrow"]:hover,
+.wt-chart-box a[class*="arrow"]:hover {
+    color: var(--mn-accent) !important;
+}
+
+/* Chart lines and connectors */
+.wt-chart-horizontal-indent,
+.wt-chart-vertical-indent {
+    border-color: var(--mn-border) !important;
+}
+
+/* Pedigree connector lines */
+.wt-pedigree-lines {
+    border-color: rgba(148, 163, 184, 0.6) !important;
+}
+
+/* Pedigree arrow navigation links */
+.wt-chart-pedigree a.btn {
+    color: var(--mn-text-secondary) !important;
+    background: var(--mn-bg-tertiary) !important;
+    border-color: var(--mn-border) !important;
+    transition: all var(--mn-transition-fast);
+}
+
+.wt-chart-pedigree a.btn:hover {
+    color: var(--mn-accent) !important;
+    background: var(--mn-bg-secondary) !important;
+    border-color: var(--mn-accent) !important;
+}
+
+/* All chart types */
+.wt-chart-ancestors,
+.wt-chart-descendants,
+.wt-chart-hourglass,
+.wt-chart-compact,
+.wt-chart-pedigree,
+.wt-chart-relationships,
+.wt-chart-family-book,
+.wt-chart-timeline,
+.wt-chart-fan {
+    color: var(--mn-text-primary);
+}
+
+/* Chart box inner links */
+.wt-chart-box a {
+    color: var(--mn-text-link) !important;
+}
+
+.wt-chart-box a:hover {
+    color: var(--mn-text-link-hover) !important;
+}
+
+/* Sex symbols in chart boxes */
+.wt-chart-box .fa-mars {
+    color: var(--mn-accent-secondary) !important;
+}
+
+.wt-chart-box .fa-venus {
+    color: var(--mn-accent-warm) !important;
+}
+
+/* Family children list cards (same structure as chart boxes) */
+.wt-chart-box .wt-chart-box-separator {
+    border-color: var(--mn-border) !important;
+}
+
+/* ============================================================
+   WEBTREES — LIFESPANS CHART
+   ============================================================ */
+
+/* Main chart area */
+.wt-lifespans-individuals {
+    background: var(--mn-bg-secondary) !important;
+    color: var(--mn-text-primary);
+}
+
+/* Scale ruler container */
+.wt-lifespans-scale {
+    border-bottom: 1px solid var(--mn-border);
+}
+
+/* Decade markers — replace tick image with CSS borders for dark theme */
+.wt-lifespans-decade {
+    color: var(--mn-text-secondary);
+    background-image: none !important;
+    border-left: 1px solid var(--mn-text-muted);
+    position: relative;
+    vertical-align: bottom;
+    padding-top: 0.25rem;
+}
+
+/* Recreate sub-ticks via repeating gradient (7px = 1 year) */
+.wt-lifespans-decade::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 12px;
+    background: repeating-linear-gradient(
+        to right,
+        var(--mn-text-muted) 0px,
+        var(--mn-text-muted) 1px,
+        transparent 1px,
+        transparent 7px
+    );
+    opacity: 0.4;
+    pointer-events: none;
+}
+
+/* Individual bars (PHP sets inline pastel background) */
+.wt-lifespans-individual {
+    color: #fff !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+    border-color: rgba(255, 255, 255, 0.15) !important;
+    border-radius: 3px;
+    font-size: 0.8rem;
+    line-height: 1.35;
+}
+
+.wt-lifespans-individual a {
+    color: #fff !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+    text-decoration: none;
+}
+
+/* Subtitle text */
+.wt-lifespans-subtitle {
+    color: var(--mn-text-secondary) !important;
+}
+
+/* Summary popup (hover card) */
+.wt-lifespans-summary {
+    background: var(--mn-bg-surface) !important;
+    border-color: var(--mn-border) !important;
+    color: var(--mn-text-primary) !important;
+    border-radius: var(--mn-radius-md);
+    padding: 0.75rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+.wt-lifespans-summary a {
+    color: var(--mn-text-link) !important;
+}
+
+.wt-lifespans-summary-link {
+    color: var(--mn-text-link) !important;
+}
+
+/* ============================================================
+   WEBTREES — TIMELINE CHART
+   ============================================================ */
+
+/* Year labels on the timeline axis */
+#timeline_chart > div[id^="scale"] {
+    color: var(--mn-text-secondary) !important;
+}
+
+/* Vertical axis line — invert the dark-on-white png */
+#line img {
+    filter: invert(0.7);
+}
+
+/* Person color classes — dark-friendly palette */
+.person0 {
+    background-color: rgba(120, 100, 240, 0.55) !important;
+    border-color: rgba(120, 100, 240, 0.6) !important;
+    color: #fff !important;
+}
+
+.person1 {
+    background-color: rgba(56, 189, 148, 0.50) !important;
+    border-color: rgba(56, 189, 148, 0.6) !important;
+    color: #fff !important;
+}
+
+.person2 {
+    background-color: rgba(240, 100, 120, 0.50) !important;
+    border-color: rgba(240, 100, 120, 0.6) !important;
+    color: #fff !important;
+}
+
+.person3 {
+    background-color: rgba(80, 140, 240, 0.55) !important;
+    border-color: rgba(80, 140, 240, 0.6) !important;
+    color: #fff !important;
+}
+
+.person4 {
+    background-color: rgba(240, 160, 60, 0.50) !important;
+    border-color: rgba(240, 160, 60, 0.6) !important;
+    color: #fff !important;
+}
+
+.person5 {
+    background-color: rgba(160, 220, 80, 0.50) !important;
+    border-color: rgba(160, 220, 80, 0.6) !important;
+    color: #fff !important;
+}
+
+/* Person boxes: links and text */
+.person0 a, .person1 a, .person2 a,
+.person3 a, .person4 a, .person5 a {
+    color: #fff !important;
+}
+
+/* Fact boxes inside timeline */
+#timeline_chart table {
+    border-collapse: collapse;
+}
+
+#timeline_chart td {
+    color: #fff;
+    font-size: 8pt;
+}
+
+/* Connector lines — invert h/d line images */
+#timeline_chart img[src*="hline"],
+#timeline_chart img[src*="dline"] {
+    filter: invert(0.7);
+}
+
+/* Diagonal line boxes */
+#timeline_chart div[id^="dbox"] {
+    opacity: 0.5;
+}
+
+/* Age cursor boxes */
+#timeline_chart div[id^="agebox"] table {
+    color: #fff;
+}
+
+/* Person list above chart */
+.wt-page-options-timeline-chart ~ .row > div[class*="person"] {
+    border-radius: var(--mn-radius-sm);
+    padding: 0.5rem;
+    margin-bottom: 0.25rem;
+}
+
+.wt-page-options-timeline-chart ~ .row > div[class*="person"] a {
+    color: #fff !important;
+}
+
+/* ============================================================
+   WEBTREES — INDIVIDUAL & FAMILY PAGES
+   ============================================================ */
+.wt-individual-silhouette-m,
+.wt-individual-silhouette-f,
+.wt-individual-silhouette-u {
+    opacity: 0.6;
+}
+
+/* Individual page portrait — container sizing (like JustLight) */
+.mn-indi-image-container {
+    flex: 0 0 230px;
+    max-width: 230px;
+}
+
+.mn-indi-image-container .img-thumbnail {
+    background-color: var(--mn-bg-tertiary);
+    border-color: var(--mn-border);
+    border-radius: var(--mn-radius-md);
+}
+
+.mn-indi-silhouette {
+    border: 0;
+    box-shadow: none;
+    text-align: center;
+    background-color: var(--mn-bg-tertiary);
+}
+
+/* "Add a media object" button below portrait */
+.mn-add-media {
+    text-align: center;
+    padding: 0.5rem 0;
+}
+
+.mn-add-media a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.8rem;
+    color: var(--mn-text-link) !important;
+    background: var(--mn-accent-subtle);
+    border: 1px solid var(--mn-border-accent);
+    border-radius: var(--mn-radius-sm);
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all var(--mn-transition-fast);
+    text-decoration: none !important;
+}
+
+.mn-add-media a:hover {
+    background: var(--mn-accent-glow);
+    border-color: var(--mn-accent);
+    color: var(--mn-text-link-hover) !important;
+    box-shadow: var(--mn-shadow-glow);
+}
+
+.mn-add-media svg {
+    color: var(--mn-accent);
+    fill: currentColor;
+}
+
+.wt-page-options {
+    background: var(--mn-bg-tertiary);
+    border: 1px solid var(--mn-border);
+    border-radius: var(--mn-radius-md);
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.wt-page-options label,
+.wt-page-options .col-form-label {
+    color: var(--mn-text-secondary);
+}
+
+.wt-page-options .form-check-inline {
+    color: var(--mn-text-secondary);
+}
+
+/* ============================================================
+   WEBTREES — SIDEBAR
+   ============================================================ */
+.wt-sidebar-content {
+    background: var(--mn-bg-secondary);
+}
+
+/* ============================================================
+   WEBTREES — BLOCKS (Home page / My page)
+   ============================================================ */
+.wt-block {
+    border: 1px solid var(--mn-border) !important;
+    border-radius: var(--mn-radius-md);
+    overflow: hidden;
+    margin-bottom: 1rem;
+    background: var(--mn-bg-secondary) !important;
+}
+
+.wt-block-header {
+    background: linear-gradient(135deg, var(--mn-bg-tertiary), var(--mn-bg-surface)) !important;
+    border-bottom: 1px solid var(--mn-border) !important;
+    color: var(--mn-text-primary) !important;
+    padding: 0.7rem 1rem;
+    font-weight: 600;
+}
+
+.wt-block-content,
+.wt-block-content .card,
+.wt-block-content .card-body {
+    background: var(--mn-bg-secondary) !important;
+    color: var(--mn-text-primary) !important;
+    padding: 1rem;
+}
+
+/* Block titles */
+.wt-block-header h3,
+.wt-block-header .card-title {
+    color: var(--mn-text-primary) !important;
+}
+
+/* ============================================================
+   SCROLLBARS (WebKit)
+   ============================================================ */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--mn-bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--mn-bg-elevated);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--mn-text-muted);
+}
+
+/* Firefox scrollbar */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--mn-bg-elevated) var(--mn-bg-primary);
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.wt-footers {
+    background: transparent;
+    border-top: 1px solid var(--mn-border-subtle);
+    color: var(--mn-text-muted);
+    padding: 0.6rem 0;
+    font-size: 0.75rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem 1rem;
+}
+
+.wt-footers > * {
+    margin: 0;
+    padding: 0;
+}
+
+.wt-footers a {
+    color: var(--mn-text-muted);
+    transition: color var(--mn-transition-fast);
+}
+
+.wt-footers a:hover {
+    color: var(--mn-accent);
+}
+
+.wt-footer-credits {
+    padding: 0;
+}
+
+.wt-footer-credits a {
+    color: var(--mn-text-muted);
+    font-size: 0.7rem;
+    letter-spacing: 0.04em;
+    opacity: 0.6;
+    transition: opacity var(--mn-transition-fast), color var(--mn-transition-fast);
+}
+
+.wt-footer-credits a:hover {
+    color: var(--mn-accent);
+    opacity: 1;
+}
+
+/* Separator dot between footer items */
+.wt-footer-contact + .wt-footer-cookies::before,
+.wt-footer-cookies + .wt-footer-page-views::before {
+    content: '·';
+    color: var(--mn-text-muted);
+    opacity: 0.5;
+    margin-inline-end: 0.5rem;
+}
+
+/* ============================================================
+   NAVBAR TOGGLER (MOBILE)
+   ============================================================ */
+.navbar-toggler {
+    border: 1px solid var(--mn-border);
+    color: var(--mn-text-secondary);
+    padding: 0.35rem 0.6rem;
+    border-radius: var(--mn-radius-sm);
+}
+
+.navbar-toggler:focus {
+    box-shadow: 0 0 0 3px var(--mn-accent-glow);
+}
+
+.navbar-toggler-icon {
+    filter: invert(1) brightness(1.5);
+}
+
+/* ============================================================
+   BREADCRUMBS
+   ============================================================ */
+.breadcrumb {
+    background: var(--mn-bg-tertiary);
+    border-radius: var(--mn-radius-sm);
+    padding: 0.55rem 1rem;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+    color: var(--mn-text-muted);
+}
+
+.breadcrumb-item.active {
+    color: var(--mn-text-secondary);
+}
+
+.breadcrumb-item a {
+    color: var(--mn-text-link);
+}
+
+/* ============================================================
+   TOOLTIPS / POPOVERS
+   ============================================================ */
+.tooltip-inner {
+    background: var(--mn-bg-surface);
+    border: 1px solid var(--mn-border);
+    color: var(--mn-text-primary);
+    border-radius: var(--mn-radius-sm);
+    font-size: 0.8125rem;
+    box-shadow: var(--mn-shadow-md);
+}
+
+.popover {
+    background: var(--mn-bg-surface);
+    border: 1px solid var(--mn-border);
+    box-shadow: var(--mn-shadow-lg);
+    border-radius: var(--mn-radius-md);
+}
+
+.popover-header {
+    background: var(--mn-bg-tertiary);
+    border-bottom: 1px solid var(--mn-border);
+    color: var(--mn-text-primary);
+}
+
+.popover-body {
+    color: var(--mn-text-primary);
+}
+
+/* ============================================================
+   WEBTREES — MEDIA / LIGHTBOX OVERLAYS
+   ============================================================ */
+.wt-media-link img {
+    border-radius: var(--mn-radius-sm);
+    transition: transform var(--mn-transition), box-shadow var(--mn-transition);
+}
+
+.wt-media-link img:hover {
+    transform: scale(1.02);
+    box-shadow: var(--mn-shadow-md);
+}
+
+/* ============================================================
+   AUTOCOMPLETE
+   ============================================================ */
+.ui-autocomplete {
+    background: var(--mn-bg-surface);
+    border: 1px solid var(--mn-border);
+    border-radius: var(--mn-radius-sm);
+    box-shadow: var(--mn-shadow-lg);
+}
+
+.ui-menu-item-wrapper {
+    color: var(--mn-text-primary);
+    padding: 0.45rem 0.85rem;
+}
+
+.ui-state-active {
+    background: var(--mn-accent-subtle) !important;
+    color: var(--mn-text-primary) !important;
+    border: none !important;
+}
+
+/* ============================================================
+   MISC WEBTREES ELEMENTS
+   ============================================================ */
+
+/* Pending changes indicator */
+.wt-pending {
+    border-left: 3px solid #d97706;
+    background: rgba(217, 119, 6, 0.08);
+}
+
+/* "New" and "Old" change badges */
+.wt-old {
+    color: #fca5a5;
+}
+
+.wt-new {
+    color: #6ee7b7;
+}
+
+/* Star/Favorite icon */
+.icon-favorite {
+    color: #fbbf24;
+}
+
+/* Colorbox overlay */
+#cboxOverlay {
+    background: rgba(0, 0, 0, 0.85);
+}
+
+#cboxContent {
+    background: var(--mn-bg-secondary) !important;
+}
+
+/* Colorbox loading spinner */
+#cboxLoadingOverlay {
+    background: var(--mn-bg-primary) !important;
+    opacity: 0.7;
+}
+
+#cboxLoadingGraphic {
+    background: none !important;
+}
+
+#cboxLoadingGraphic::after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 36px;
+    height: 36px;
+    margin: -18px 0 0 -18px;
+    border: 3px solid var(--mn-border);
+    border-top-color: var(--mn-accent);
+    border-radius: 50%;
+    animation: mn-spin 0.7s linear infinite;
+}
+
+/* ============================================================
+   SPINNERS & LOADING INDICATORS
+   ============================================================ */
+
+/* Custom spin animation */
+@keyframes mn-spin {
+    to { transform: rotate(360deg); }
+}
+
+@keyframes mn-pulse {
+    0%, 100% { opacity: 0.4; transform: scale(0.95); }
+    50%      { opacity: 1; transform: scale(1); }
+}
+
+/* Bootstrap spinner overrides */
+.spinner-border {
+    color: var(--mn-accent) !important;
+    border-width: 2.5px;
+}
+
+.spinner-grow {
+    color: var(--mn-accent) !important;
+}
+
+/* webtrees AJAX loading placeholder — replace the ugly GIF.
+   Exclude .wt-map: that container also has .wt-ajax-load but needs
+   height: var(--wt-map-height) from _maps.css, not our 48px spinner. */
+.wt-ajax-load:not(.wt-map):empty {
+    height: 48px;
+    background: none !important;
+    position: relative;
+}
+
+.wt-ajax-load:not(.wt-map):empty::after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 28px;
+    height: 28px;
+    margin: -14px 0 0 -14px;
+    border: 3px solid var(--mn-border);
+    border-top-color: var(--mn-accent);
+    border-radius: 50%;
+    animation: mn-spin 0.7s linear infinite;
+}
+
+/* TomSelect spinner */
+.ts-dropdown .spinner {
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+}
+
+.ts-dropdown .spinner::after {
+    border-color: var(--mn-border) transparent !important;
+    border-top-color: var(--mn-accent) !important;
+    border-width: 3px !important;
+    width: 22px !important;
+    height: 22px !important;
+}
+
+/* Interactive tree loading spinner */
+#tv_tree .tv_box_loading,
+#tv_tree img.tv_box_loading {
+    visibility: hidden;
+    position: relative;
+}
+
+#tv_tree .tv_box_loading::after {
+    content: '';
+    visibility: visible;
+    display: block;
+    width: 14px;
+    height: 14px;
+    border: 2px solid var(--mn-border);
+    border-top-color: var(--mn-accent);
+    border-radius: 50%;
+    animation: mn-spin 0.7s linear infinite;
+}
+
+/* Statistics charts */
+.wt-statistics-chart {
+    color: var(--mn-text-primary);
+}
+
+/* Family navigator */
+.wt-family-navigator-family-heading {
+    background: var(--mn-bg-tertiary);
+    color: var(--mn-text-secondary);
+}
+
+/* On-screen keyboard */
+.wt-osk-keys {
+    background: var(--mn-bg-surface);
+    border: 1px solid var(--mn-border);
+}
+
+/* Flash messages */
+.flash-messages {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+/* ============================================================
+   COMPREHENSIVE DARK OVERRIDES
+   Catch remaining light backgrounds from MinimalTheme / webtrees
+   ============================================================ */
+
+/* Page options / form panels */
+.wt-page-options,
+.wt-page-options-label,
+.wt-page-options-value {
+    background-color: var(--mn-bg-tertiary) !important;
+    color: var(--mn-text-primary) !important;
+    border-color: var(--mn-border) !important;
+}
+
+/* Individual page header */
+.wt-individual-header {
+    background: var(--mn-bg-secondary) !important;
+    color: var(--mn-text-primary) !important;
+}
+
+/* Family page */
+.wt-family-members {
+    color: var(--mn-text-primary);
+}
+
+/* All remaining table cells */
+td, th {
+    color: var(--mn-text-primary);
+}
+
+/* Facts table inline values */
+.wt-facts-table {
+    color: var(--mn-text-primary);
+}
+
+.wt-facts-table td,
+.wt-facts-table th {
+    background-color: var(--mn-bg-secondary) !important;
+    color: var(--mn-text-primary) !important;
+    border-color: var(--mn-border) !important;
+}
+
+.wt-facts-table .wt-facts-label {
+    background-color: var(--mn-bg-tertiary) !important;
+    color: var(--mn-text-secondary) !important;
+}
+
+/* Sidebar */
+.wt-sidebar {
+    background: var(--mn-bg-secondary) !important;
+    border-color: var(--mn-border) !important;
+}
+
+.wt-sidebar-content {
+    background: var(--mn-bg-secondary) !important;
+    color: var(--mn-text-primary) !important;
+}
+
+/* Report options */
+.wt-report-options {
+    background: var(--mn-bg-tertiary) !important;
+    color: var(--mn-text-primary) !important;
+}
+
+/* Clippings cart */
+.wt-clippings-cart {
+    background: var(--mn-bg-secondary) !important;
+    color: var(--mn-text-primary) !important;
+}
+
+/* Media objects */
+.wt-media-link {
+    color: var(--mn-text-primary);
+}
+
+/* Census assistant */
+.wt-census-assistant {
+    background: var(--mn-bg-secondary) !important;
+    color: var(--mn-text-primary) !important;
+}
+
+/* Datatables */
+.dataTables_wrapper {
+    color: var(--mn-text-primary);
+}
+
+.dataTables_wrapper .dataTables_filter input,
+.dataTables_wrapper .dataTables_length select {
+    background-color: var(--mn-bg-tertiary) !important;
+    border-color: var(--mn-border) !important;
+    color: var(--mn-text-primary) !important;
+}
+
+.dataTables_wrapper .dataTables_info {
+    color: var(--mn-text-secondary) !important;
+}
+
+table.dataTable tbody tr {
+    background-color: var(--mn-bg-secondary) !important;
+    color: var(--mn-text-primary) !important;
+}
+
+table.dataTable tbody tr:hover {
+    background-color: var(--mn-bg-tertiary) !important;
+}
+
+table.dataTable tbody tr.odd {
+    background-color: var(--mn-bg-secondary) !important;
+}
+
+table.dataTable tbody tr.even {
+    background-color: rgba(124, 110, 240, 0.03) !important;
+}
+
+table.dataTable thead th {
+    background-color: var(--mn-bg-tertiary) !important;
+    color: var(--mn-text-secondary) !important;
+    border-bottom-color: var(--mn-border) !important;
+}
+
+/* Select2 dropdowns (used by webtrees) */
+.select2-container--default .select2-selection--single {
+    background-color: var(--mn-bg-tertiary) !important;
+    border-color: var(--mn-border) !important;
+    color: var(--mn-text-primary) !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    color: var(--mn-text-primary) !important;
+}
+
+.select2-container--default .select2-results__option {
+    background-color: var(--mn-bg-surface) !important;
+    color: var(--mn-text-primary) !important;
+}
+
+.select2-container--default .select2-results__option--highlighted {
+    background-color: var(--mn-accent) !important;
+    color: #fff !important;
+}
+
+.select2-dropdown {
+    background-color: var(--mn-bg-surface) !important;
+    border-color: var(--mn-border) !important;
+}
+
+.select2-search--dropdown .select2-search__field {
+    background-color: var(--mn-bg-tertiary) !important;
+    border-color: var(--mn-border) !important;
+    color: var(--mn-text-primary) !important;
+}
+
+/* TomSelect (newer webtrees versions) */
+.ts-wrapper .ts-control {
+    background-color: var(--mn-bg-tertiary) !important;
+    border-color: var(--mn-border) !important;
+    color: var(--mn-text-primary) !important;
+}
+
+/* Hide our custom arrow on TomSelect-managed selects */
+select.tomselected,
+select.tom-select,
+.ts-wrapper ~ select {
+    background-image: none !important;
+    padding-right: 0.85rem !important;
+}
+
+/* TomSelect dropdown caret */
+.ts-wrapper .ts-control::after {
+    border-color: var(--mn-text-muted) transparent transparent transparent !important;
+}
+
+.ts-wrapper .ts-dropdown {
+    background-color: var(--mn-bg-surface) !important;
+    border-color: var(--mn-border) !important;
+    color: var(--mn-text-primary) !important;
+}
+
+.ts-wrapper .ts-dropdown .active {
+    background-color: var(--mn-accent) !important;
+    color: #fff !important;
+}
+
+/* Offcanvas */
+.offcanvas {
+    background-color: var(--mn-bg-secondary) !important;
+    color: var(--mn-text-primary) !important;
+}
+
+/* Push offcanvas below header */
+.offcanvas-start,
+.offcanvas-end {
+    top: 85px !important;
+    height: calc(100vh - 85px) !important;
+}
+
+/* Generic: force dark on any white-background divs within main content */
+.wt-main-container .bg-white,
+.wt-main-container .bg-light,
+.bg-white,
+.bg-light {
+    background-color: var(--mn-bg-secondary) !important;
+    color: var(--mn-text-primary) !important;
+}
+
+/* Catch-all for white backgrounds — exclude Leaflet internals */
+.wt-main-container > div[style*="background"]:not(.leaflet-container):not([class*="leaflet"]),
+.wt-main-container > section[style*="background"],
+.wt-main-container > aside[style*="background"] {
+    background-color: var(--mn-bg-secondary) !important;
+    color: var(--mn-text-primary) !important;
+}
+
+/* Third-party map sidebar & panels — catch common wrapper classes */
+.wt-main-container .card,
+.wt-main-container .panel,
+.wt-main-container .sidebar,
+.wt-main-container aside {
+    background-color: var(--mn-bg-secondary) !important;
+    color: var(--mn-text-primary) !important;
+    border-color: var(--mn-border) !important;
+}
+
+/* Text utilities that clash */
+.text-dark {
+    color: var(--mn-text-primary) !important;
+}
+
+.text-muted {
+    color: var(--mn-text-muted) !important;
+}
+
+.text-body {
+    color: var(--mn-text-primary) !important;
+}
+
+/* Border utilities */
+.border {
+    border-color: var(--mn-border) !important;
+}
+
+/* Background utilities override */
+.bg-body,
+.bg-body-secondary,
+.bg-body-tertiary {
+    background-color: var(--mn-bg-secondary) !important;
+}
+
+/* Leaflet / map containers — dark surroundings */
+.leaflet-container {
+    background-color: var(--mn-bg-primary) !important;
+}
+
+.osm-wrapper,
+.osm-sidebar,
+.osm-sidebar-content {
+    background-color: var(--mn-bg-primary) !important;
+    color: var(--mn-text-primary) !important;
+}
+
+/* Google Charts / visualization overlays */
+.google-visualization-tooltip,
+.gv-tooltip {
+    background-color: var(--mn-bg-surface) !important;
+    color: var(--mn-text-primary) !important;
+    border-color: var(--mn-border) !important;
+}
+
+/* Google Charts SVG text — force light color for dark theme */
+[id^="google-chart-"] text {
+    fill: var(--mn-text-secondary) !important;
+}
+
+/* Google Charts SVG legend/label lines */
+[id^="google-chart-"] line {
+    stroke: var(--mn-text-muted) !important;
+}
+
+/* Google Charts axis gridlines */
+[id^="google-chart-"] rect[fill="#cccccc"],
+[id^="google-chart-"] rect[fill="#ccc"],
+[id^="google-chart-"] rect[fill="#333"],
+[id^="google-chart-"] rect[fill="#666"] {
+    fill: var(--mn-border) !important;
+}
+
+/* Statistics page section headings */
+.wt-statistics-chart h4.border-bottom {
+    color: var(--mn-text-primary);
+    border-color: var(--mn-border) !important;
+}
+
+/* Links within dark backgrounds - ensure visibility */
+.card a,
+.list-group-item a,
+.wt-block-content a,
+.wt-facts-table a,
+.wt-sidebar a {
+    color: var(--mn-text-link);
+}
+
+.card a:hover,
+.list-group-item a:hover,
+.wt-block-content a:hover,
+.wt-facts-table a:hover,
+.wt-sidebar a:hover {
+    color: var(--mn-text-link-hover);
+}
+
+/* ============================================================
+   RESPONSIVE — MOBILE
+   ============================================================ */
+@media (max-width: 767.98px) {
+    .wt-header-wrapper {
+        position: sticky;
+        top: 0;
+        transition: transform 0.3s ease;
+    }
+
+    /* Auto-hide header on scroll — JS adds/removes this class */
+    .wt-header-wrapper.mn-header-hidden {
+        transform: translateY(-100%);
+    }
+
+    /* Compact header padding on mobile */
+    .wt-header-container {
+        padding-top: 0.35rem;
+        padding-bottom: 0.25rem;
+    }
+
+    /* Smaller site title */
+    .wt-site-title {
+        font-size: 1.05rem;
+    }
+
+    .wt-site-title::before {
+        width: 20px;
+        height: 20px;
+    }
+
+    /* Tighter nav spacing */
+    .wt-primary-navigation .nav-link,
+    .wt-secondary-navigation .nav-link {
+        padding: 0.25rem 0.5rem !important;
+        font-size: 0.82rem;
+    }
+
+    .wt-main-wrapper {
+        padding: 1rem 0;
+    }
+
+    .wt-page-title {
+        font-size: 1.35rem;
+    }
+
+    .wt-facts-table .wt-facts-label {
+        width: 35%;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .wt-facts-table .wt-facts-label {
+        width: 100%;
+        display: block;
+    }
+
+    .wt-facts-table .wt-facts-value {
+        width: 100%;
+        display: block;
+    }
+
+    .card-body {
+        padding: 0.85rem;
+    }
+}
+
+/* ============================================================
+   FOCUS & ACCESSIBILITY POLISH
+   ============================================================ */
+*:focus-visible {
+    outline: 2px solid var(--mn-accent);
+    outline-offset: 2px;
+}
+
+/* No page-entry animation — any animation on .wt-main-wrapper
+   creates a stacking context that breaks Leaflet map positioning. */
+
+/* Progress bar theming */
+.progress {
+    background-color: var(--mn-bg-tertiary);
+    border-radius: var(--mn-radius-sm);
+}
+
+.progress-bar {
+    background: linear-gradient(135deg, var(--mn-accent), var(--mn-accent-secondary));
+}
+
+/* Toast / Notification override */
+.toast {
+    background: var(--mn-bg-surface) !important;
+    border: 1px solid var(--mn-border) !important;
+    color: var(--mn-text-primary) !important;
+    border-radius: var(--mn-radius-md);
+    box-shadow: var(--mn-shadow-lg);
+}
+
+.toast-header {
+    background: var(--mn-bg-tertiary) !important;
+    color: var(--mn-text-primary) !important;
+    border-bottom: 1px solid var(--mn-border) !important;
+}
+
+/* Input group addons */
+.input-group-text {
+    background: var(--mn-bg-surface);
+    border-color: var(--mn-border);
+    color: var(--mn-text-secondary);
+}
+
+/* Webtrees tree selector / header dropdowns */
+.wt-tree-select .dropdown-toggle {
+    background: var(--mn-bg-tertiary) !important;
+    border-color: var(--mn-border) !important;
+    color: var(--mn-text-primary) !important;
+}
+
+/* Fix potential MinimalTheme header borders bleeding through */
+.wt-header-container,
+.wt-primary-navigation,
+.wt-secondary-navigation {
+    border-color: transparent !important;
+}
+
+/* Restore only the borders we intentionally want */
+.wt-header-search-form .form-control {
+    border-color: rgba(148, 163, 184, 0.10) !important;
+    border-right: none !important;
+}
+
+.wt-header-search-button {
+    border-color: var(--mn-border) !important;
+}
+
+/* Ensure dropdown borders are kept */
+.wt-header-wrapper .dropdown-menu {
+    border: 1px solid var(--mn-border) !important;
+}
+
+/* Small subtle accent line under entire header */
+.wt-header-wrapper::after {
+    content: '';
+    display: block;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 5%, var(--mn-accent) 25%, var(--mn-accent) 75%, transparent 95%);
+    opacity: 0.35;
+}
+
+/* ============================================================
+   PRINT STYLES
+   ============================================================ */
+@media print {
+    body {
+        background: #fff;
+        color: #000;
+    }
+
+    .wt-header-wrapper,
+    .wt-footers,
+    .wt-footer-credits,
+    .d-print-none {
+        display: none !important;
+    }
+
+    a {
+        color: #000;
+        text-decoration: underline;
+    }
+
+    .card {
+        border: 1px solid #ccc;
+        box-shadow: none;
+    }
+}

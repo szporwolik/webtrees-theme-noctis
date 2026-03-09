@@ -1,0 +1,47 @@
+<?php
+
+use Fisharebest\Webtrees\Module\ModuleGlobalInterface;
+use Fisharebest\Webtrees\Registry;
+use Fisharebest\Webtrees\Services\ModuleService;
+use Fisharebest\Webtrees\View;
+
+?>
+
+<script src="<?= e(asset('js/vendor.min.js')) ?>"></script>
+<script src="<?= e(asset('js/webtrees.min.js')) ?>"></script>
+
+<script>
+  // Mobile menus — open one, close the other
+  $('.toggle-primary').on('click', function () {
+    $('.toggle-secondary').attr('aria-expanded', 'false');
+    $('.wt-secondary-navigation').removeClass('show');
+  });
+  $('.toggle-secondary').on('click', function () {
+    $('.toggle-primary').attr('aria-expanded', 'false');
+    $('.wt-primary-navigation').removeClass('show');
+  });
+
+  // Scroll offset for sticky header
+  function adjustScrollPadding (mq) {
+    if (mq.matches) {
+      var headerHeight = $('.wt-header-wrapper').outerHeight() + 10;
+      $('html').css('scroll-padding-top', headerHeight + 'px');
+    } else {
+      $('html').removeAttr('style');
+    }
+  }
+  var mq = window.matchMedia('(min-width: 992px)');
+  adjustScrollPadding(mq);
+  mq.addEventListener('change', adjustScrollPadding);
+
+  // Highlight active nav item
+  var currentUrl = location.href;
+  $('.wt-primary-navigation').find('a[href="' + currentUrl + '"]').addClass('active').parents('li').find('.nav-link').addClass('mn-nav-link-active');
+  $('.wt-secondary-navigation').find('a[href="' + currentUrl + '"]').addClass('active');
+</script>
+
+<?= View::stack('javascript') ?>
+
+<?= Registry::container()->get(ModuleService::class)->findByInterface(ModuleGlobalInterface::class)->map(static function (ModuleGlobalInterface $module): string {
+    return $module->bodyContent();
+})->implode('') ?>

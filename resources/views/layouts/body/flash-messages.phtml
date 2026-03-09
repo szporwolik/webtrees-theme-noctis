@@ -1,0 +1,16 @@
+<?php
+
+use Fisharebest\Webtrees\FlashMessages;
+use Fisharebest\Webtrees\I18N;
+
+?>
+
+<div class="flash-messages">
+    <?php foreach (FlashMessages::getMessages() as $message) : ?>
+    <div class="alert alert-<?= e($message->status) ?> alert-dismissible" role="alert">
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="<?= I18N::translate('close') ?>">
+        </button>
+        <?= $message->text ?>
+    </div>
+    <?php endforeach ?>
+</div>

@@ -1,0 +1,23 @@
+<?php
+
+use Fisharebest\Webtrees\Module\ModuleFooterInterface;
+use Fisharebest\Webtrees\Registry;
+use Fisharebest\Webtrees\Services\ModuleService;
+use Psr\Http\Message\ServerRequestInterface;
+
+$request = Registry::container()->get(ServerRequestInterface::class);
+$footers = Registry::container()->get(ModuleService::class)->findByInterface(ModuleFooterInterface::class)->map(static function (ModuleFooterInterface $module) use ($request): string {
+    return $module->getFooter($request);
+});
+
+?>
+
+<footer class="wt-footers container-fluid d-print-none">
+    <div class="container">
+        <div class="row py-3">
+            <?php foreach ($footers as $footer) : ?>
+                <?= $footer ?>
+            <?php endforeach ?>
+        </div>
+    </div>
+</footer>
