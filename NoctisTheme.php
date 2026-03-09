@@ -26,7 +26,7 @@ class NoctisTheme extends MinimalTheme implements ModuleThemeInterface, ModuleCu
     use ModuleFooterTrait;
 
     public const CUSTOM_AUTHOR = 'Szymon Porwolik';
-    public const CUSTOM_VERSION = '0.0.1';
+    public const CUSTOM_VERSION = '0.1.0';
     public const AUTHOR_WEBSITE = 'https://szymon.porwolik.com';
     public const CUSTOM_SUPPORT_URL = 'https://github.com/szporwolik/webtrees-theme-noctis';
     public const CUSTOM_LATEST_VERSION_URL = 'https://raw.githubusercontent.com/szporwolik/webtrees-theme-noctis/main/latest-version.txt';
