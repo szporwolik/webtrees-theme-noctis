@@ -1329,37 +1329,105 @@ input[type="button"]:hover {
     opacity: 0.6;
 }
 
-/* Keep popups above the sticky/glass header on all pages */
+/* ============================================================
+   Z-INDEX STACKING — Comprehensive Fix
+   Ensures all popups/overlays appear above sticky header (z:100)
+   
+   Hierarchy:
+   - Aurora background: 0
+   - Main wrapper: 1 (200 when modal open)
+   - Header (sticky): 100
+   - Dropdown menus: 1000
+   - Bootstrap modal backdrop: 1040
+   - Bootstrap modals & dialogs: 1050
+   - jQuery UI dialogs: 1050
+   - Tooltips & popovers: 1070
+   - On-screen keyboard: 1080
+   - Colorbox lightbox: 9999 (webtrees default)
+   - CKEditor dialogs: 10010 (CKEditor default)
+   ============================================================ */
+
+/* Bootstrap dropdown menus */
+.dropdown-menu,
+.dropdown-menu.show {
+    z-index: 1000 !important;
+}
+
+/* Bootstrap modal backdrop */
+.modal-backdrop,
+.modal-backdrop.show,
+body.modal-open .modal-backdrop {
+    z-index: 1040 !important;
+}
+
+/* Bootstrap modals — all variants */
 .modal,
 .modal.show,
-.popover,
-.tooltip,
+.modal.fade,
+.modal-dialog,
+#wt-ajax-modal,
+#wt-shares-modal {
+    z-index: 1050 !important;
+}
+
+/* jQuery UI dialogs and overlays */
 .ui-dialog,
-.ui-datepicker,
-.ui-keyboard,
-.autocomplete-suggestions {
-    z-index: 3000 !important;
+.ui-dialog-content,
+.ui-widget-overlay,
+.ui-front {
+    z-index: 1050 !important;
 }
 
-.modal-backdrop,
-.modal.show ~ .modal-backdrop,
-body.modal-open .modal-backdrop.show {
-    z-index: 2990 !important;
+/* jQuery UI datepicker */
+.ui-datepicker {
+    z-index: 1050 !important;
 }
 
-/* Form widgets that render detached dropdown popups */
+/* Autocomplete dropdowns */
+.autocomplete-suggestions,
+.ui-autocomplete,
+.ui-menu {
+    z-index: 1050 !important;
+}
+
+/* Form widget dropdowns (TomSelect, Select2) */
 .select2-container--open,
 .select2-container--open .select2-dropdown,
+.select2-dropdown,
 .ts-dropdown,
-.ts-dropdown-content,
-.ui-keyboard,
-.ui-datepicker {
-    z-index: 3010 !important;
+.ts-dropdown-content {
+    z-index: 1050 !important;
 }
 
-/* jQuery UI widgets opened above modals/header */
-.ui-widget-overlay {
-    z-index: 2980 !important;
+/* Bootstrap tooltips & popovers */
+.tooltip,
+.tooltip.show,
+.popover,
+.popover.show {
+    z-index: 1070 !important;
+}
+
+/* Webtrees chart dropdowns */
+.wt-chart-box-dropdown,
+.wt-chart-box-zoom-dropdown,
+.wt-chart-box-links-dropdown {
+    z-index: 1050 !important;
+}
+
+/* Colorbox lightbox (webtrees image viewer) */
+#cboxOverlay,
+#colorbox,
+#cboxWrapper,
+#cboxContent,
+.cboxPhoto {
+    z-index: 9999 !important;
+}
+
+/* CKEditor dialogs */
+.cke_dialog_container,
+.cke_dialog_open,
+.cke_dialog_body {
+    z-index: 10010 !important;
 }
 
 /* Fix orphaned modal backdrop - hide when no modal is open */
@@ -1382,7 +1450,6 @@ body.modal-open .modal-backdrop.show {
     pointer-events: auto;
     display: block !important;
     opacity: 0.6 !important;
-    z-index: 2990 !important;
 }
 
 /* Push add-fact form below header */
@@ -2255,7 +2322,7 @@ body.modal-open .modal-backdrop.show {
 
 /* On-screen keyboard */
 .wt-osk {
-    z-index: 4200 !important;
+    z-index: 1080 !important;
     background: var(--mn-bg-surface) !important;
     border: 1px solid var(--mn-border) !important;
     border-radius: var(--mn-radius-md) !important;
