@@ -2942,6 +2942,178 @@ select.tom-select,
 }
 
 /* ============================================================
+   SP TREE EXPLORER (webtrees-tree-explorer)
+   Scoped overrides only - do not affect other modules/themes
+   ============================================================ */
+
+/* Remap plugin semantic tokens to Noctis palette */
+.wtp-plugin-root {
+    --wtp-bg: var(--mn-bg-secondary);
+    --wtp-bg-elevated: var(--mn-bg-tertiary);
+    --wtp-surface: var(--mn-bg-surface);
+    --wtp-text: var(--mn-text-primary);
+    --wtp-text-muted: var(--mn-text-secondary);
+    --wtp-link: var(--mn-text-link);
+    --wtp-link-hover: var(--mn-text-link-hover);
+    --wtp-border: var(--mn-border);
+    --wtp-border-strong: var(--mn-border-accent);
+    --wtp-accent: var(--mn-accent);
+    --wtp-accent-hover: var(--mn-accent-hover);
+    --wtp-focus: var(--mn-accent);
+    --wtp-shadow-sm: var(--mn-shadow-sm);
+    --wtp-shadow-md: var(--mn-shadow-lg);
+    --wtp-radius-sm: var(--mn-radius-sm);
+    --wtp-radius-md: var(--mn-radius-md);
+    --wtp-transition-fast: var(--mn-transition-fast);
+    --wtp-transition: var(--mn-transition);
+
+    --wtp-card-male-bg: color-mix(in srgb, var(--mn-bg-secondary) 88%, var(--mn-accent-secondary));
+    --wtp-card-male-border: color-mix(in srgb, var(--mn-accent-secondary) 70%, var(--mn-border));
+    --wtp-card-female-bg: color-mix(in srgb, var(--mn-bg-secondary) 88%, var(--mn-accent-warm));
+    --wtp-card-female-border: color-mix(in srgb, var(--mn-accent-warm) 68%, var(--mn-border));
+    --wtp-card-unknown-bg: var(--mn-bg-secondary);
+    --wtp-card-unknown-border: var(--mn-border-accent);
+}
+
+.wtp-plugin-root .sp-page-heading,
+.wtp-plugin-root .wt-page-title,
+.wtp-plugin-root .wt-page-options-label,
+.wtp-plugin-root .wt-page-options-value {
+    color: var(--mn-text-primary) !important;
+}
+
+.wtp-plugin-root .sp-navigator {
+    background:
+        radial-gradient(120% 120% at 10% 10%, color-mix(in srgb, var(--mn-accent) 14%, transparent) 0%, transparent 48%),
+        radial-gradient(100% 100% at 90% 90%, color-mix(in srgb, var(--mn-accent-secondary) 10%, transparent) 0%, transparent 52%),
+        var(--mn-bg-tertiary);
+    border: 1px solid var(--mn-border-accent);
+    box-shadow: var(--mn-shadow-lg);
+}
+
+.wtp-plugin-root .sp-toolbar {
+    background: color-mix(in srgb, var(--mn-bg-secondary) 90%, transparent);
+    border: 1px solid var(--mn-border);
+    box-shadow: var(--mn-shadow-md);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.wtp-plugin-root .sp-toolbar .sp-btn,
+.wtp-plugin-root .sp-search-input,
+.wtp-plugin-root .wt-page-options :is(input[type="text"], select, textarea) {
+    background: var(--mn-bg-surface);
+    color: var(--mn-text-primary);
+    border-color: var(--mn-border);
+}
+
+.wtp-plugin-root .sp-toolbar .sp-btn:hover,
+.wtp-plugin-root .sp-toolbar .sp-btn.sp-active {
+    background: color-mix(in srgb, var(--mn-accent) 16%, var(--mn-bg-surface));
+    border-color: var(--mn-border-accent);
+    color: #fff;
+}
+
+.wtp-plugin-root .sp-search-results {
+    background: var(--mn-bg-surface);
+    border: 1px solid var(--mn-border);
+    box-shadow: var(--mn-shadow-lg);
+}
+
+.wtp-plugin-root .sp-search-item:hover {
+    background: color-mix(in srgb, var(--mn-accent) 14%, var(--mn-bg-surface));
+}
+
+.wtp-plugin-root .sp-card {
+    color: var(--mn-text-primary);
+    box-shadow: var(--mn-shadow-md);
+}
+
+.wtp-plugin-root .sp-card.sp-origin {
+    box-shadow: var(--mn-shadow-glow), var(--mn-shadow-lg);
+}
+
+.wtp-plugin-root .sp-name {
+    color: var(--mn-text-primary);
+}
+
+.wtp-plugin-root .sp-name:hover {
+    color: var(--mn-text-link-hover);
+}
+
+.wtp-plugin-root .sp-years,
+.wtp-plugin-root .sp-search-years,
+.wtp-plugin-root .sp-card-actions a {
+    color: var(--mn-text-secondary);
+}
+
+.wtp-plugin-root .sp-card-actions {
+    border-top: 1px solid var(--mn-border);
+}
+
+.wtp-plugin-root .sp-card-actions a:hover {
+    color: var(--mn-text-primary);
+    background: var(--mn-bg-elevated);
+}
+
+.wtp-plugin-root .sp-couple-line::after {
+    background: color-mix(in srgb, var(--mn-accent-secondary) 45%, var(--mn-border));
+}
+
+.wtp-plugin-root .sp-couple-date {
+    color: var(--mn-text-primary);
+    background: color-mix(in srgb, var(--mn-bg-surface) 92%, transparent);
+    border: 1px solid var(--mn-border-subtle);
+}
+
+.wtp-plugin-root .sp-divorce-date {
+    color: #fda4af;
+}
+
+.wtp-plugin-root .sp-couple-rings svg circle {
+    stroke: color-mix(in srgb, var(--mn-accent-warm) 56%, var(--mn-accent-secondary)) !important;
+}
+
+.wtp-plugin-root .sp-rings-broken svg line {
+    stroke: #fb7185 !important;
+}
+
+.wtp-plugin-root .sp-avatar-wrap {
+    border-color: var(--mn-border);
+    background: var(--mn-bg-elevated);
+}
+
+.wtp-plugin-root .sp-avatar-wrap.sp-silhouette-m {
+    background-color: color-mix(in srgb, var(--mn-accent-secondary) 24%, var(--mn-bg-elevated));
+}
+
+.wtp-plugin-root .sp-avatar-wrap.sp-silhouette-f {
+    background-color: color-mix(in srgb, var(--mn-accent-warm) 24%, var(--mn-bg-elevated));
+}
+
+.wtp-plugin-root .sp-avatar-wrap.sp-silhouette-u {
+    background-color: color-mix(in srgb, var(--mn-text-secondary) 16%, var(--mn-bg-elevated));
+}
+
+.wtp-plugin-root .sp-loading-overlay {
+    background: color-mix(in srgb, var(--mn-bg-tertiary) 78%, transparent);
+}
+
+.wtp-plugin-root .sp-loading-spinner {
+    border-color: var(--mn-border);
+    border-top-color: var(--mn-accent);
+}
+
+.wt-chart-interactive.sp-fullview {
+    background: var(--mn-bg-primary) !important;
+}
+
+.wt-chart-interactive.sp-fullview .sp-navigator {
+    border-color: transparent;
+    border-radius: 0;
+}
+
+/* ============================================================
    PRINT STYLES
    ============================================================ */
 @media print {
