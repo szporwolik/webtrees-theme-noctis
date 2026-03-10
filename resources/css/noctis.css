@@ -2967,10 +2967,10 @@ select.tom-select,
     --wtp-transition-fast: var(--mn-transition-fast);
     --wtp-transition: var(--mn-transition);
 
-    --wtp-card-male-bg: color-mix(in srgb, var(--mn-bg-secondary) 88%, var(--mn-accent-secondary));
-    --wtp-card-male-border: color-mix(in srgb, var(--mn-accent-secondary) 70%, var(--mn-border));
-    --wtp-card-female-bg: color-mix(in srgb, var(--mn-bg-secondary) 88%, var(--mn-accent-warm));
-    --wtp-card-female-border: color-mix(in srgb, var(--mn-accent-warm) 68%, var(--mn-border));
+    --wtp-card-male-bg: linear-gradient(145deg, rgba(18, 36, 58, 0.96), rgba(13, 28, 46, 0.96));
+    --wtp-card-male-border: color-mix(in srgb, #6ee7ff 78%, var(--mn-border));
+    --wtp-card-female-bg: linear-gradient(145deg, rgba(49, 26, 54, 0.96), rgba(36, 21, 45, 0.96));
+    --wtp-card-female-border: color-mix(in srgb, #ff9ad6 76%, var(--mn-border));
     --wtp-card-unknown-bg: var(--mn-bg-secondary);
     --wtp-card-unknown-border: var(--mn-border-accent);
 }
@@ -2984,11 +2984,17 @@ select.tom-select,
 
 .wtp-plugin-root .sp-navigator {
     background:
-        radial-gradient(120% 120% at 10% 10%, color-mix(in srgb, var(--mn-accent) 14%, transparent) 0%, transparent 48%),
-        radial-gradient(100% 100% at 90% 90%, color-mix(in srgb, var(--mn-accent-secondary) 10%, transparent) 0%, transparent 52%),
-        var(--mn-bg-tertiary);
-    border: 1px solid var(--mn-border-accent);
+        radial-gradient(130% 120% at 8% 8%, rgba(111, 78, 255, 0.20) 0%, transparent 46%),
+        radial-gradient(115% 115% at 92% 84%, rgba(56, 189, 248, 0.14) 0%, transparent 50%),
+        radial-gradient(120% 100% at 50% 100%, rgba(6, 12, 28, 0.72) 0%, rgba(5, 10, 24, 0.92) 100%),
+        #050a18;
+    border: 1px solid color-mix(in srgb, var(--mn-accent-secondary) 35%, var(--mn-border));
     box-shadow: var(--mn-shadow-lg);
+}
+
+.wtp-plugin-root .sp-conn-canvas {
+    opacity: 0.95;
+    filter: drop-shadow(0 0 2px rgba(56, 189, 248, 0.28));
 }
 
 .wtp-plugin-root .sp-toolbar {
@@ -3014,6 +3020,10 @@ select.tom-select,
     color: #fff;
 }
 
+.wtp-plugin-root .sp-toolbar-sep {
+    background: color-mix(in srgb, var(--mn-accent-secondary) 30%, var(--mn-border));
+}
+
 .wtp-plugin-root .sp-search-results {
     background: var(--mn-bg-surface);
     border: 1px solid var(--mn-border);
@@ -3025,12 +3035,65 @@ select.tom-select,
 }
 
 .wtp-plugin-root .sp-card {
+    background: linear-gradient(155deg, rgba(19, 30, 49, 0.96), rgba(14, 24, 42, 0.98));
+    border-color: var(--mn-border) !important;
+    border-radius: 10px;
     color: var(--mn-text-primary);
-    box-shadow: var(--mn-shadow-md);
+    box-shadow: 0 8px 20px rgba(2, 7, 20, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.wtp-plugin-root .sp-card:hover {
+    border-color: var(--mn-border-accent) !important;
+    box-shadow: 0 10px 24px rgba(2, 7, 20, 0.62), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.wtp-plugin-root .sp-card.sp-male {
+    border-color: var(--mn-border) !important;
+    box-shadow:
+        inset 4px 0 0 rgba(110, 231, 255, 0.95),
+        0 8px 20px rgba(2, 7, 20, 0.55),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.wtp-plugin-root .sp-card.sp-female {
+    border-color: var(--mn-border) !important;
+    box-shadow:
+        inset 4px 0 0 rgba(255, 154, 214, 0.95),
+        0 8px 20px rgba(2, 7, 20, 0.55),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
 .wtp-plugin-root .sp-card.sp-origin {
-    box-shadow: var(--mn-shadow-glow), var(--mn-shadow-lg);
+    border-color: var(--mn-border-accent) !important;
+    box-shadow: 0 0 18px rgba(124, 110, 240, 0.32), 0 10px 28px rgba(2, 7, 20, 0.7);
+}
+
+.wtp-plugin-root .sp-card.sp-male:hover {
+    box-shadow:
+        inset 5px 0 0 rgba(110, 231, 255, 1),
+        0 12px 28px rgba(2, 7, 20, 0.68),
+        0 0 14px rgba(110, 231, 255, 0.18);
+}
+
+.wtp-plugin-root .sp-card.sp-female:hover {
+    box-shadow:
+        inset 5px 0 0 rgba(255, 154, 214, 1),
+        0 12px 28px rgba(2, 7, 20, 0.68),
+        0 0 14px rgba(255, 154, 214, 0.2);
+}
+
+.wtp-plugin-root .sp-card.sp-origin.sp-male {
+    box-shadow:
+        inset 5px 0 0 rgba(110, 231, 255, 1),
+        0 0 18px rgba(124, 110, 240, 0.32),
+        0 10px 28px rgba(2, 7, 20, 0.7);
+}
+
+.wtp-plugin-root .sp-card.sp-origin.sp-female {
+    box-shadow:
+        inset 5px 0 0 rgba(255, 154, 214, 1),
+        0 0 18px rgba(124, 110, 240, 0.32),
+        0 10px 28px rgba(2, 7, 20, 0.7);
 }
 
 .wtp-plugin-root .sp-name {
@@ -3056,8 +3119,17 @@ select.tom-select,
     background: var(--mn-bg-elevated);
 }
 
+.wtp-plugin-root .sp-ancestor-tree-btn,
+.wtp-plugin-root .sp-card-actions a {
+    color: #e6eefc;
+}
+
+.wtp-plugin-root .sp-ancestor-tree-btn:hover {
+    color: #8fe5ff;
+}
+
 .wtp-plugin-root .sp-couple-line::after {
-    background: color-mix(in srgb, var(--mn-accent-secondary) 45%, var(--mn-border));
+    background: color-mix(in srgb, #8adfff 66%, var(--mn-border));
 }
 
 .wtp-plugin-root .sp-couple-date {
@@ -3071,7 +3143,7 @@ select.tom-select,
 }
 
 .wtp-plugin-root .sp-couple-rings svg circle {
-    stroke: color-mix(in srgb, var(--mn-accent-warm) 56%, var(--mn-accent-secondary)) !important;
+    stroke: color-mix(in srgb, #ff9ad6 52%, #7fe3ff) !important;
 }
 
 .wtp-plugin-root .sp-rings-broken svg line {
@@ -3079,8 +3151,9 @@ select.tom-select,
 }
 
 .wtp-plugin-root .sp-avatar-wrap {
-    border-color: var(--mn-border);
-    background: var(--mn-bg-elevated);
+    border-color: color-mix(in srgb, var(--mn-text-secondary) 42%, var(--mn-border));
+    background: color-mix(in srgb, var(--mn-bg-elevated) 86%, #000);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05);
 }
 
 .wtp-plugin-root .sp-avatar-wrap.sp-silhouette-m {
