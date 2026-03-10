@@ -179,22 +179,6 @@ class NoctisTheme extends MinimalTheme implements ModuleThemeInterface, ModuleCu
             'el.prepend(img);' .
             '})();</script>';
 
-        // Auto-hide header on scroll-down for mobile
-        $footer .= '<script>(function(){' .
-            'if(window.innerWidth>767)return;' .
-            'var hdr=document.querySelector(".wt-header-wrapper");' .
-            'if(!hdr)return;' .
-            'var last=window.scrollY,ticking=false;' .
-            'window.addEventListener("scroll",function(){' .
-                'if(!ticking){window.requestAnimationFrame(function(){' .
-                    'var y=window.scrollY;' .
-                    'if(y>last&&y>80)hdr.classList.add("mn-header-hidden");' .
-                    'else if(y<last)hdr.classList.remove("mn-header-hidden");' .
-                    'last=y;ticking=false;' .
-                '});ticking=true;}' .
-            '},{passive:true});' .
-            '})();</script>';
-
         // Ambient aurora background effect
         $footer .= '<script>(function(){' .
             'var a=document.createElement("div");a.className="mn-aurora";' .

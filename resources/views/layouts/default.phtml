@@ -51,7 +51,7 @@ use Psr\Http\Message\ServerRequestInterface;
                         <?php endif ?>
                         <?= view(Registry::container()->get(ModuleThemeInterface::class)->name() . '::layouts/body/navbar-toggler-secondary'); ?>
                     </div>
-                    <div class="mn-header-end collapse navbar-collapse d-none d-flex flex-lg-row flex-column justify-content-end">
+                    <div class="mn-header-end collapse navbar-collapse d-none d-md-flex flex-lg-row flex-column justify-content-end">
                         <?= view(Registry::container()->get(ModuleThemeInterface::class)->name() . '::layouts/body/secondary-navigation', ['tree' => $tree]); ?>
                         <?php if ($tree !== null) : ?>
                             <?= view(Registry::container()->get(ModuleThemeInterface::class)->name() . '::layouts/body/header-search', ['tree' => $tree]); ?>

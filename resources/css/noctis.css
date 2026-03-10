@@ -2126,6 +2126,13 @@ body.modal-open .modal-backdrop.show {
 }
 
 .navbar-toggler-icon {
+    display: inline-block;
+    width: 1.1rem;
+    height: 1.1rem;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(243,245,247,0.95)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2.1' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100% 100%;
     filter: invert(1) brightness(1.5);
 }
 
@@ -2934,22 +2941,62 @@ select.tom-select,
 /* ============================================================
    RESPONSIVE — MOBILE
    ============================================================ */
+/* Deterministic nav visibility contract (desktop-first). */
+.mn-navbar-toggler {
+    display: none;
+}
+
+#mobileMenu {
+    display: none;
+}
+
 @media (max-width: 767.98px) {
+    .mn-navbar-toggler {
+        display: block;
+    }
+
+    .mn-header-end,
+    #primaryMenu {
+        display: none !important;
+    }
+
+    #mobileMenu {
+        display: flex !important;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    #primaryMenuM,
+    #secondaryMenuM,
+    #mobileMenu .collapse:not(.show) {
+        display: none !important;
+    }
+
+    #primaryMenuM.show,
+    #secondaryMenuM.show,
+    #mobileMenu .collapse.show {
+        display: block !important;
+    }
+
     .wt-header-wrapper {
         position: sticky;
         top: 0;
-        transition: transform 0.3s ease;
-    }
-
-    /* Auto-hide header on scroll — JS adds/removes this class */
-    .wt-header-wrapper.mn-header-hidden {
-        transform: translateY(-100%);
     }
 
     /* Compact header padding on mobile */
     .wt-header-container {
         padding-top: 0.35rem;
         padding-bottom: 0.25rem;
+    }
+
+    /* JustLight-like fluid phone layout (no outer container margins) */
+    .wt-header-container,
+    .wt-main-container {
+        max-width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+        padding-left: 0.65rem;
+        padding-right: 0.65rem;
     }
 
     /* Smaller site title */
@@ -2983,6 +3030,12 @@ select.tom-select,
 }
 
 @media (max-width: 575.98px) {
+    .wt-header-container,
+    .wt-main-container {
+        padding-left: 0.45rem;
+        padding-right: 0.45rem;
+    }
+
     .wt-facts-table .wt-facts-label {
         width: 100%;
         display: block;
@@ -3084,6 +3137,61 @@ select.tom-select,
    SP TREE EXPLORER (webtrees-tree-explorer)
    Scoped overrides only - do not affect other modules/themes
    ============================================================ */
+
+/* Compatibility: plugin renamed toggle classes in newer builds.
+   Keep old and new selectors together so both versions are styled. */
+.wtp-plugin-root .sp-toggle-sources,
+.wtp-plugin-root .sp-toggle-switch-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    user-select: none;
+    font-size: 12px;
+    font-weight: 600;
+    color: #b67280;
+    white-space: nowrap;
+    padding: 2px 6px;
+    border-radius: calc(var(--sp-radius) - 4px);
+    border: 1px solid var(--wtp-border, #e5e7eb);
+    height: 36px;
+    transition: background 0.15s, border-color 0.15s;
+}
+
+.wtp-plugin-root .sp-toggle-sources:hover,
+.wtp-plugin-root .sp-toggle-switch-label:hover {
+    background: #f3f4f6;
+    border-color: var(--wtp-border-strong, #adb5bd);
+}
+
+.wtp-plugin-root .sp-toggle-sources:has(.sp-toggle-input:disabled),
+.wtp-plugin-root .sp-toggle-switch-label:has(.sp-toggle-input:disabled) {
+    opacity: 0.35;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* Toggle switches — only the track changes color, text/icons stay neutral.
+   Do NOT touch .sp-toggle-input (layout/a11y are plugin-managed). */
+
+/* Unchecked track */
+.wtp-plugin-root .sp-toggle-switch {
+    background-color: var(--mn-bg-tertiary) !important;
+    border-color: var(--mn-border) !important;
+    transition: background 0.2s, border-color 0.2s !important;
+}
+
+/* Icons and labels: always neutral */
+.wtp-plugin-root .sp-toggle-switch-label .sp-toggle-icon,
+.wtp-plugin-root .sp-toggle-switch-label .sp-toggle-label {
+    color: var(--mn-text-secondary) !important;
+}
+
+/* Checked track: purple */
+.wtp-plugin-root .sp-toggle-switch-label:has(.sp-toggle-input:checked) .sp-toggle-switch {
+    background-color: var(--mn-accent) !important;
+    border-color: var(--mn-accent) !important;
+}
 
 /* Remap plugin semantic tokens to Noctis palette */
 .wtp-plugin-root {
