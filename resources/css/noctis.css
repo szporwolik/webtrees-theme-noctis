@@ -821,7 +821,7 @@ form[name="login"] .form-control:focus,
 }
 
 /* Plain <button> and <input> submit/button elements without Bootstrap classes */
-button:not([class*="btn"]),
+button:not([class*="btn"]):not(.sp-ancestor-tree-btn):not(.sp-ancestor-expand),
 input[type="submit"],
 input[type="button"] {
     background-color: var(--mn-bg-surface) !important;
@@ -832,7 +832,7 @@ input[type="button"] {
     cursor: pointer;
 }
 
-button:not([class*="btn"]):hover,
+button:not([class*="btn"]):not(.sp-ancestor-tree-btn):not(.sp-ancestor-expand):hover,
 input[type="submit"]:hover,
 input[type="button"]:hover {
     background-color: var(--mn-bg-elevated) !important;
@@ -3283,21 +3283,9 @@ select.tom-select,
     background: var(--mn-bg-elevated);
 }
 
-.wtp-plugin-root .sp-ancestor-tree-btn,
-.wtp-plugin-root .sp-ancestor-expand,
 .wtp-plugin-root .sp-card-actions a {
     color: #f0f4fb;
     font-weight: 500;
-}
-
-.wtp-plugin-root .sp-ancestor-tree-btn:hover,
-.wtp-plugin-root .sp-ancestor-expand:hover {
-    color: #8fe5ff;
-}
-
-.wtp-plugin-root .sp-ancestor-expand svg {
-    display: inline-block;
-    vertical-align: middle;
 }
 
 .wtp-plugin-root .sp-couple-line::after {
