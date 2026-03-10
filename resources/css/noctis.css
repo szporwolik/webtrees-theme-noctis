@@ -3296,8 +3296,8 @@ select.tom-select,
 }
 
 .wtp-plugin-root .sp-ancestor-expand svg {
-    fill: currentColor;
-    opacity: 1;
+    display: inline-block;
+    vertical-align: middle;
 }
 
 .wtp-plugin-root .sp-couple-line::after {
