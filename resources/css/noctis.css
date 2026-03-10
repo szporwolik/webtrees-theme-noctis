@@ -3284,13 +3284,20 @@ select.tom-select,
 }
 
 .wtp-plugin-root .sp-ancestor-tree-btn,
+.wtp-plugin-root .sp-ancestor-expand,
 .wtp-plugin-root .sp-card-actions a {
     color: #f0f4fb;
     font-weight: 500;
 }
 
-.wtp-plugin-root .sp-ancestor-tree-btn:hover {
+.wtp-plugin-root .sp-ancestor-tree-btn:hover,
+.wtp-plugin-root .sp-ancestor-expand:hover {
     color: #8fe5ff;
+}
+
+.wtp-plugin-root .sp-ancestor-expand svg {
+    fill: currentColor;
+    opacity: 1;
 }
 
 .wtp-plugin-root .sp-couple-line::after {
