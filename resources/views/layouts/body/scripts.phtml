@@ -15,6 +15,9 @@ use Fisharebest\Webtrees\View;
   (function () {
     var primaryMenu = document.getElementById('primaryMenuM');
     var secondaryMenu = document.getElementById('secondaryMenuM');
+    var primaryButton = document.querySelector('[data-bs-target="#primaryMenuM"]');
+    var secondaryButton = document.querySelector('[data-bs-target="#secondaryMenuM"]');
+    var primarySearchField = primaryMenu ? primaryMenu.querySelector('.wt-header-search-field') : null;
 
     if (!primaryMenu || !secondaryMenu || typeof bootstrap === 'undefined' || !bootstrap.Collapse) {
       return;
@@ -23,12 +26,46 @@ use Fisharebest\Webtrees\View;
     var primaryCollapse = bootstrap.Collapse.getOrCreateInstance(primaryMenu, {toggle: false});
     var secondaryCollapse = bootstrap.Collapse.getOrCreateInstance(secondaryMenu, {toggle: false});
 
+    function setExpanded(button, expanded) {
+      if (button) {
+        button.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+      }
+    }
+
     primaryMenu.addEventListener('show.bs.collapse', function () {
       secondaryCollapse.hide();
+      setExpanded(secondaryButton, false);
+    });
+
+    primaryMenu.addEventListener('shown.bs.collapse', function () {
+      setExpanded(primaryButton, true);
+
+      if (primarySearchField && window.matchMedia && window.matchMedia('(max-width: 767.98px)').matches) {
+        window.setTimeout(function () {
+          try {
+            primarySearchField.focus({preventScroll: true});
+          } catch (error) {
+            primarySearchField.focus();
+          }
+        }, 140);
+      }
+    });
+
+    primaryMenu.addEventListener('hidden.bs.collapse', function () {
+      setExpanded(primaryButton, false);
     });
 
     secondaryMenu.addEventListener('show.bs.collapse', function () {
       primaryCollapse.hide();
+      setExpanded(primaryButton, false);
+    });
+
+    secondaryMenu.addEventListener('shown.bs.collapse', function () {
+      setExpanded(secondaryButton, true);
+    });
+
+    secondaryMenu.addEventListener('hidden.bs.collapse', function () {
+      setExpanded(secondaryButton, false);
     });
   })();
 
