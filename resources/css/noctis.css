@@ -141,8 +141,23 @@ body {
     overflow: hidden;
 }
 
+/* Keep aurora intensity controlled even on very tall pages.
+   This fixed overlay does not depend on document height. */
+.mn-aurora::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    background:
+        radial-gradient(ellipse 90% 70% at 50% -10%, rgba(11, 14, 23, 0.36) 0%, transparent 60%),
+        radial-gradient(ellipse 90% 70% at 50% 110%, rgba(11, 14, 23, 0.42) 0%, transparent 62%),
+        rgba(11, 14, 23, 0.46);
+}
+
 .mn-aurora-blob {
     position: absolute;
+    z-index: 1;
     border-radius: 50%;
     filter: blur(100px);
     will-change: transform;
