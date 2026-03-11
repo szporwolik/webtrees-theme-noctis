@@ -3,13 +3,15 @@
 use Fisharebest\Webtrees\Http\RequestHandlers\SearchQuickAction;
 use Fisharebest\Webtrees\I18N;
 
+$search_id = $search_id ?? 'quick-search';
+
 ?>
 
 <form method="post" action="<?= e(route(SearchQuickAction::class, ['tree' => $tree->name()])) ?>" class="wt-header-search-form" role="search">
     <?= csrf_field() ?>
     <div class="input-group">
-        <label class="visually-hidden" for="quick-search"><?= I18N::translate('Search') ?></label>
-        <input type="search" class="form-control quick-search wt-header-search-field" id="quick-search" name="query" size="15" placeholder="<?= I18N::translate('Search') ?>">
+        <label class="visually-hidden" for="<?= e($search_id) ?>"><?= I18N::translate('Search') ?></label>
+        <input type="search" class="form-control quick-search wt-header-search-field" id="<?= e($search_id) ?>" name="query" size="15" placeholder="<?= I18N::translate('Search') ?>">
         <button type="submit" class="btn btn-primary wt-header-search-button">
             <?= view('icons/search') ?>
         </button>

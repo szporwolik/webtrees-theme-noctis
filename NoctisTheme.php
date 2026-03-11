@@ -357,11 +357,43 @@ class NoctisTheme extends MinimalTheme implements ModuleThemeInterface, ModuleCu
             toggleBar.appendChild(mobileUserChip);
         }
 
-        // Avoid duplicate account entry inside mobile user panel when chip is present.
+        // Avoid duplicate account parent row by flattening account sub-items into top-level rows.
         if (mobileUserChip) {
-            var duplicateMyMenuItem = secondaryNav.querySelector('.menu-mymenu');
-            if (duplicateMyMenuItem) {
-                duplicateMyMenuItem.remove();
+            var myMenuItem = secondaryNav.querySelector('.menu-mymenu');
+            if (myMenuItem) {
+                var secondaryNavList = secondaryNav.querySelector('.nav');
+                var myMenuDropdown = myMenuItem.querySelector(':scope > .dropdown-menu');
+
+                if (secondaryNavList && myMenuDropdown) {
+                    myMenuDropdown.querySelectorAll('.dropdown-item').forEach(function (item) {
+                        var href = item.getAttribute('href');
+                        if (!href) {
+                            return;
+                        }
+
+                        var rowItem = document.createElement('li');
+                        rowItem.className = 'nav-item mn-mobile-user-subitem';
+
+                        var rowLink = document.createElement('a');
+                        rowLink.className = 'nav-link';
+                        rowLink.href = href;
+                        rowLink.innerHTML = item.innerHTML;
+
+                        var itemTarget = item.getAttribute('target');
+                        if (itemTarget) {
+                            rowLink.setAttribute('target', itemTarget);
+                        }
+                        var itemRel = item.getAttribute('rel');
+                        if (itemRel) {
+                            rowLink.setAttribute('rel', itemRel);
+                        }
+
+                        rowItem.appendChild(rowLink);
+                        secondaryNavList.insertBefore(rowItem, myMenuItem.nextSibling);
+                    });
+                }
+
+                myMenuItem.remove();
             }
         }
 
@@ -398,7 +430,6 @@ class NoctisTheme extends MinimalTheme implements ModuleThemeInterface, ModuleCu
         headerRow.appendChild(toggleBar);
 
         var primaryBtn = document.getElementById('mnMobilePrimaryBtn');
-        var secondaryBtn = document.getElementById('mnMobileSecondaryBtn');
         var searchBtn = document.getElementById('mnMobileSearchBtn');
         var hasBootstrapCollapse = typeof bootstrap !== 'undefined' && !!bootstrap.Collapse;
         var primaryCollapse = hasBootstrapCollapse ? bootstrap.Collapse.getOrCreateInstance(primaryNav, {toggle: false}) : null;
@@ -447,12 +478,11 @@ class NoctisTheme extends MinimalTheme implements ModuleThemeInterface, ModuleCu
 
         primaryNav.addEventListener('shown.bs.collapse', function () { setExpanded(primaryBtn, true); });
         primaryNav.addEventListener('hidden.bs.collapse', function () { setExpanded(primaryBtn, false); });
-        secondaryNav.addEventListener('shown.bs.collapse', function () { setExpanded(secondaryBtn, true); setExpanded(mobileUserChip, true); });
-        secondaryNav.addEventListener('hidden.bs.collapse', function () { setExpanded(secondaryBtn, false); setExpanded(mobileUserChip, false); });
+        secondaryNav.addEventListener('shown.bs.collapse', function () { setExpanded(mobileUserChip, true); });
+        secondaryNav.addEventListener('hidden.bs.collapse', function () { setExpanded(mobileUserChip, false); });
 
         if (!hasBootstrapCollapse) {
             setExpanded(primaryBtn, false);
-            setExpanded(secondaryBtn, false);
         }
 
         primaryBtn.addEventListener('click', function () {
@@ -467,29 +497,8 @@ class NoctisTheme extends MinimalTheme implements ModuleThemeInterface, ModuleCu
             openPanel(primaryNav, primaryCollapse);
             if (!hasBootstrapCollapse) {
                 setExpanded(primaryBtn, true);
-                setExpanded(secondaryBtn, false);
             }
         });
-
-        if (secondaryBtn) {
-            secondaryBtn.addEventListener('click', function () {
-                if (isOpen(secondaryNav)) {
-                    hidePanel(secondaryNav, secondaryCollapse);
-                    setExpanded(secondaryBtn, false);
-                    setExpanded(mobileUserChip, false);
-                    return;
-                }
-                hidePanel(primaryNav, primaryCollapse);
-                hideSearch();
-                if (searchBtn) { setExpanded(searchBtn, false); }
-                openPanel(secondaryNav, secondaryCollapse);
-                if (!hasBootstrapCollapse) {
-                    setExpanded(primaryBtn, false);
-                    setExpanded(secondaryBtn, true);
-                    setExpanded(mobileUserChip, true);
-                }
-            });
-        }
 
         if (mobileUserChip) {
             mobileUserChip.addEventListener('click', function () {
@@ -504,7 +513,6 @@ class NoctisTheme extends MinimalTheme implements ModuleThemeInterface, ModuleCu
                 openPanel(secondaryNav, secondaryCollapse);
                 if (!hasBootstrapCollapse) {
                     setExpanded(primaryBtn, false);
-                    setExpanded(secondaryBtn, false);
                     setExpanded(mobileUserChip, true);
                 }
             });
@@ -521,7 +529,6 @@ class NoctisTheme extends MinimalTheme implements ModuleThemeInterface, ModuleCu
                 hidePanel(secondaryNav, secondaryCollapse);
                 if (!hasBootstrapCollapse) {
                     setExpanded(primaryBtn, false);
-                    setExpanded(secondaryBtn, false);
                 }
                 showSearch();
                 setExpanded(searchBtn, true);

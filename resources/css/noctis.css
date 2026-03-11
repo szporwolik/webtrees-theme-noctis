@@ -2306,6 +2306,8 @@ body.modal-open .modal-backdrop.show {
 /* Header pending changes link/badge */
 .wt-header-wrapper .wt-pending,
 a.wt-pending,
+.menu-pending > .nav-link,
+.menu-pending a,
 [class*="pending"] > a,
 a[href*="pending"] {
     display: inline-flex;
@@ -2331,6 +2333,8 @@ a[href*="pending"] {
 
 .wt-header-wrapper .wt-pending:hover,
 a.wt-pending:hover,
+.menu-pending > .nav-link:hover,
+.menu-pending a:hover,
 a[href*="pending"]:hover {
     background: linear-gradient(
         135deg,
