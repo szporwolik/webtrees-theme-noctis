@@ -11,50 +11,24 @@ use Fisharebest\Webtrees\View;
 <script src="<?= e(asset('js/webtrees.min.js')) ?>"></script>
 
 <script>
-  // Mobile menus - deterministic toggle logic independent of Bootstrap collapse internals.
+  // Mobile menus: use native Bootstrap collapse and close the opposite panel on open.
   (function () {
-    var primaryBtn = document.querySelector('.toggle-primary');
-    var secondaryBtn = document.querySelector('.toggle-secondary');
     var primaryMenu = document.getElementById('primaryMenuM');
     var secondaryMenu = document.getElementById('secondaryMenuM');
 
-    if (!primaryBtn || !secondaryBtn || !primaryMenu || !secondaryMenu) {
+    if (!primaryMenu || !secondaryMenu || typeof bootstrap === 'undefined' || !bootstrap.Collapse) {
       return;
     }
 
-    function close(button, panel) {
-      button.setAttribute('aria-expanded', 'false');
-      panel.classList.remove('show');
-    }
+    var primaryCollapse = bootstrap.Collapse.getOrCreateInstance(primaryMenu, {toggle: false});
+    var secondaryCollapse = bootstrap.Collapse.getOrCreateInstance(secondaryMenu, {toggle: false});
 
-    function open(button, panel) {
-      button.setAttribute('aria-expanded', 'true');
-      panel.classList.add('show');
-    }
-
-    function toggle(button, panel, otherButton, otherPanel) {
-      var isOpen = button.getAttribute('aria-expanded') === 'true';
-      close(otherButton, otherPanel);
-      if (isOpen) {
-        close(button, panel);
-      } else {
-        open(button, panel);
-      }
-    }
-
-    close(primaryBtn, primaryMenu);
-    close(secondaryBtn, secondaryMenu);
-
-    primaryBtn.addEventListener('click', function (event) {
-      event.preventDefault();
-      event.stopPropagation();
-      toggle(primaryBtn, primaryMenu, secondaryBtn, secondaryMenu);
+    primaryMenu.addEventListener('show.bs.collapse', function () {
+      secondaryCollapse.hide();
     });
 
-    secondaryBtn.addEventListener('click', function (event) {
-      event.preventDefault();
-      event.stopPropagation();
-      toggle(secondaryBtn, secondaryMenu, primaryBtn, primaryMenu);
+    secondaryMenu.addEventListener('show.bs.collapse', function () {
+      primaryCollapse.hide();
     });
   })();
 

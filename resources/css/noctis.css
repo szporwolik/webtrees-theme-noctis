@@ -2941,41 +2941,119 @@ select.tom-select,
 /* ============================================================
    RESPONSIVE — MOBILE
    ============================================================ */
-/* Deterministic nav visibility contract (desktop-first). */
-.mn-navbar-toggler {
-    display: none;
-}
-
-#mobileMenu {
-    display: none;
-}
-
 @media (max-width: 767.98px) {
-    .mn-navbar-toggler {
-        display: block;
+    .wt-header-wrapper .mn-mobile-header-stack {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
     }
 
-    .mn-header-end,
-    #primaryMenu {
+    .wt-header-wrapper .mn-mobile-header-stack .wt-site-logo,
+    .wt-header-wrapper .mn-mobile-header-stack .wt-accessibility-links {
         display: none !important;
     }
 
-    #mobileMenu {
-        display: flex !important;
-        flex-direction: column;
+    .wt-header-wrapper .mn-mobile-row-title,
+    .wt-header-wrapper .mn-mobile-row-search,
+    .wt-header-wrapper .mn-mobile-row-toggles {
         width: 100%;
     }
 
-    #primaryMenuM,
-    #secondaryMenuM,
-    #mobileMenu .collapse:not(.show) {
+    .wt-header-wrapper.mn-mobile-menu-ready .mn-mobile-row-search {
+        display: none;
+    }
+    .wt-header-wrapper.mn-mobile-menu-ready .mn-mobile-row-search.show {
+        display: block;
+    }
+
+    .wt-header-wrapper .mn-mobile-row-title {
+        margin-bottom: 0.35rem;
+    }
+
+    .wt-header-wrapper .wt-header-search {
+        width: 100%;
+        max-width: 100%;
+        flex: 0 0 100%;
+        margin-top: 0.45rem;
+        margin-bottom: 0.45rem;
+    }
+
+    .wt-header-wrapper .wt-header-search-form,
+    .wt-header-wrapper .wt-header-search .input-group,
+    .wt-header-wrapper .wt-header-search .form-control {
+        width: 100%;
+    }
+
+    .mn-mobile-nav-togglebar {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 0.5rem;
+        margin-top: 0.2rem;
+        margin-bottom: 0.45rem;
+    }
+
+    .mn-mobile-nav-togglebar .navbar-toggler {
+        border: 1px solid var(--mn-border);
+        background: var(--mn-bg-surface);
+        color: var(--mn-text-primary);
+        border-radius: var(--mn-radius-sm);
+        min-width: 2.65rem;
+        min-height: 2.2rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.3rem 0.5rem;
+    }
+
+    .mn-mobile-nav-togglebar .navbar-toggler i {
+        font-size: 0.95rem;
+        line-height: 1;
+    }
+
+    .mn-mobile-nav-togglebar .navbar-toggler[aria-expanded="true"] {
+        color: var(--mn-accent);
+        border-color: var(--mn-accent);
+        background: color-mix(in srgb, var(--mn-accent) 12%, var(--mn-bg-surface));
+    }
+
+    .wt-header-wrapper .mn-mobile-collapse:not(.show) {
         display: none !important;
     }
 
-    #primaryMenuM.show,
-    #secondaryMenuM.show,
-    #mobileMenu .collapse.show {
+    .wt-header-wrapper .mn-mobile-collapse.show {
         display: block !important;
+    }
+
+    .wt-header-wrapper .mn-mobile-collapse {
+        margin-top: 0.35rem;
+        padding: 0.35rem;
+        border: 1px solid color-mix(in srgb, var(--mn-accent) 22%, var(--mn-border));
+        border-radius: var(--mn-radius-md);
+        background: linear-gradient(165deg, rgba(14, 20, 40, 0.94), rgba(10, 16, 34, 0.94));
+    }
+
+    .wt-header-wrapper .mn-mobile-collapse .nav {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+
+    .wt-header-wrapper .mn-mobile-collapse .nav-item {
+        width: 100%;
+    }
+
+    .wt-header-wrapper .mn-mobile-collapse .nav-link {
+        width: 100%;
+        justify-content: space-between;
+        border-radius: var(--mn-radius-sm);
+        padding: 0.48rem 0.62rem !important;
+        background: color-mix(in srgb, var(--mn-bg-tertiary) 90%, #000);
+    }
+
+    .wt-header-wrapper .mn-mobile-collapse .nav-link:hover,
+    .wt-header-wrapper .mn-mobile-collapse .nav-link:focus {
+        background: color-mix(in srgb, var(--mn-accent) 14%, var(--mn-bg-tertiary));
     }
 
     .wt-header-wrapper {

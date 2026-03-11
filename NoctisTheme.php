@@ -26,7 +26,7 @@ class NoctisTheme extends MinimalTheme implements ModuleThemeInterface, ModuleCu
     use ModuleFooterTrait;
 
     public const CUSTOM_AUTHOR = 'Szymon Porwolik';
-    public const CUSTOM_VERSION = '0.1.0';
+    public const CUSTOM_VERSION = '0.2.0';
     public const AUTHOR_WEBSITE = 'https://szymon.porwolik.com';
     public const CUSTOM_SUPPORT_URL = 'https://github.com/szporwolik/webtrees-theme-noctis';
     public const CUSTOM_LATEST_VERSION_URL = 'https://raw.githubusercontent.com/szporwolik/webtrees-theme-noctis/main/latest-version.txt';
@@ -224,6 +224,180 @@ class NoctisTheme extends MinimalTheme implements ModuleThemeInterface, ModuleCu
             '}).observe(document.body,{childList:true});' .
             'setInterval(cleanBackdrops,1000);' .
             '})();</script>';
+
+        // Mobile-only Bootstrap collapse menu for MinimalTheme header structure
+        $footer .= <<<'HTML'
+<script>
+(function () {
+    function initMobileBootstrapMenu() {
+        if (!window.matchMedia || !window.matchMedia('(max-width: 767.98px)').matches) {
+            return;
+        }
+
+        var headerRow = document.querySelector('.wt-header-wrapper .wt-header-container > .row.wt-header-content');
+        var headerWrapper = document.querySelector('.wt-header-wrapper');
+        var primaryNav = document.querySelector('.wt-header-wrapper .wt-primary-navigation');
+        var secondaryNav = document.querySelector('.wt-header-wrapper .wt-secondary-navigation');
+
+        if (!headerRow || !headerWrapper || !primaryNav || !secondaryNav || document.getElementById('mnMobileMenuToggles')) {
+            return;
+        }
+
+        primaryNav.id = primaryNav.id || 'mnPrimaryMenuMobile';
+        secondaryNav.id = secondaryNav.id || 'mnSecondaryMenuMobile';
+
+        primaryNav.classList.add('collapse', 'mn-mobile-collapse');
+        secondaryNav.classList.add('collapse', 'mn-mobile-collapse');
+        primaryNav.classList.remove('show');
+        secondaryNav.classList.remove('show');
+        headerWrapper.classList.add('mn-mobile-menu-ready');
+
+        var toggleBar = document.createElement('div');
+        toggleBar.id = 'mnMobileMenuToggles';
+        toggleBar.className = 'mn-mobile-nav-togglebar mn-mobile-row-toggles d-md-none';
+        toggleBar.innerHTML =
+            '<button id="mnMobilePrimaryBtn" class="navbar-toggler" type="button" aria-controls="' + primaryNav.id + '" aria-expanded="false" aria-label="Toggle primary navigation">' +
+                '<i class="fa-solid fa-bars" aria-hidden="true"></i>' +
+            '</button>' +
+            '<button id="mnMobileSecondaryBtn" class="navbar-toggler" type="button" aria-controls="' + secondaryNav.id + '" aria-expanded="false" aria-label="Toggle user navigation">' +
+                '<i class="fa-solid fa-ellipsis-vertical" aria-hidden="true"></i>' +
+            '</button>' +
+            '<button id="mnMobileSearchBtn" class="navbar-toggler" type="button" aria-expanded="false" aria-label="Toggle search">' +
+                '<i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>' +
+            '</button>';
+
+        var siteTitle = headerRow.querySelector('.wt-site-title');
+        var headerSearch = headerRow.querySelector('.wt-header-search');
+
+        headerRow.classList.add('mn-mobile-header-stack');
+        if (siteTitle) {
+            siteTitle.classList.add('mn-mobile-row-title');
+        }
+        if (headerSearch) {
+            headerSearch.id = headerSearch.id || 'mnMobileSearchRow';
+            headerSearch.classList.add('mn-mobile-row-search');
+        }
+
+        if (siteTitle) {
+            headerRow.appendChild(siteTitle);
+        }
+        if (headerSearch) {
+            headerRow.appendChild(headerSearch);
+        }
+        headerRow.appendChild(toggleBar);
+
+        var primaryBtn = document.getElementById('mnMobilePrimaryBtn');
+        var secondaryBtn = document.getElementById('mnMobileSecondaryBtn');
+        var searchBtn = document.getElementById('mnMobileSearchBtn');
+        var hasBootstrapCollapse = typeof bootstrap !== 'undefined' && !!bootstrap.Collapse;
+        var primaryCollapse = hasBootstrapCollapse ? bootstrap.Collapse.getOrCreateInstance(primaryNav, {toggle: false}) : null;
+        var secondaryCollapse = hasBootstrapCollapse ? bootstrap.Collapse.getOrCreateInstance(secondaryNav, {toggle: false}) : null;
+
+        // Wire aria-controls on search button now that the search element id is known.
+        if (searchBtn && headerSearch && headerSearch.id) {
+            searchBtn.setAttribute('aria-controls', headerSearch.id);
+        }
+
+        function setExpanded(button, expanded) {
+            button.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+        }
+
+        function openPanel(nav, collapse) {
+            if (hasBootstrapCollapse) {
+                collapse.show();
+            } else {
+                nav.classList.add('show');
+            }
+        }
+
+        function hidePanel(nav, collapse) {
+            if (hasBootstrapCollapse) {
+                collapse.hide();
+            } else {
+                nav.classList.remove('show');
+            }
+        }
+
+        function isOpen(nav) {
+            return nav.classList.contains('show');
+        }
+
+        function showSearch() {
+            if (headerSearch) { headerSearch.classList.add('show'); }
+        }
+        function hideSearch() {
+            if (headerSearch) { headerSearch.classList.remove('show'); }
+        }
+        function isSearchOpen() {
+            return headerSearch ? headerSearch.classList.contains('show') : false;
+        }
+
+        primaryNav.addEventListener('shown.bs.collapse', function () { setExpanded(primaryBtn, true); });
+        primaryNav.addEventListener('hidden.bs.collapse', function () { setExpanded(primaryBtn, false); });
+        secondaryNav.addEventListener('shown.bs.collapse', function () { setExpanded(secondaryBtn, true); });
+        secondaryNav.addEventListener('hidden.bs.collapse', function () { setExpanded(secondaryBtn, false); });
+
+        if (!hasBootstrapCollapse) {
+            setExpanded(primaryBtn, false);
+            setExpanded(secondaryBtn, false);
+        }
+
+        primaryBtn.addEventListener('click', function () {
+            if (isOpen(primaryNav)) {
+                hidePanel(primaryNav, primaryCollapse);
+                setExpanded(primaryBtn, false);
+                return;
+            }
+            hidePanel(secondaryNav, secondaryCollapse);
+            hideSearch();
+            if (searchBtn) { setExpanded(searchBtn, false); }
+            openPanel(primaryNav, primaryCollapse);
+            if (!hasBootstrapCollapse) {
+                setExpanded(primaryBtn, true);
+                setExpanded(secondaryBtn, false);
+            }
+        });
+
+        secondaryBtn.addEventListener('click', function () {
+            if (isOpen(secondaryNav)) {
+                hidePanel(secondaryNav, secondaryCollapse);
+                setExpanded(secondaryBtn, false);
+                return;
+            }
+            hidePanel(primaryNav, primaryCollapse);
+            hideSearch();
+            if (searchBtn) { setExpanded(searchBtn, false); }
+            openPanel(secondaryNav, secondaryCollapse);
+            if (!hasBootstrapCollapse) {
+                setExpanded(primaryBtn, false);
+                setExpanded(secondaryBtn, true);
+            }
+        });
+
+        if (searchBtn) {
+            searchBtn.addEventListener('click', function () {
+                if (isSearchOpen()) {
+                    hideSearch();
+                    setExpanded(searchBtn, false);
+                    return;
+                }
+                hidePanel(primaryNav, primaryCollapse);
+                hidePanel(secondaryNav, secondaryCollapse);
+                if (!hasBootstrapCollapse) {
+                    setExpanded(primaryBtn, false);
+                    setExpanded(secondaryBtn, false);
+                }
+                showSearch();
+                setExpanded(searchBtn, true);
+            });
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', initMobileBootstrapMenu);
+    window.addEventListener('load', initMobileBootstrapMenu);
+})();
+</script>
+HTML;
 
         return $footer;
     }
