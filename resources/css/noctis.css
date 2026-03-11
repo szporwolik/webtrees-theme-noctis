@@ -3410,11 +3410,37 @@ select.tom-select,
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
-.wtp-plugin-root .sp-focus-chip-img {
+.wtp-plugin-root .sp-focus-chip-avatar {
     width: 20px;
     height: 20px;
     border-radius: 50%;
     border: 1px solid color-mix(in srgb, var(--mn-accent-secondary) 40%, var(--mn-border));
+    background: color-mix(in srgb, var(--mn-accent-secondary) 22%, var(--mn-bg-elevated));
+    color: var(--mn-text-secondary) !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.wtp-plugin-root .sp-focus-chip-avatar svg {
+    width: 14px;
+    height: 14px;
+    display: block;
+    color: inherit !important;
+}
+
+.wtp-plugin-root .sp-focus-chip-avatar svg path {
+    fill: currentColor !important;
+}
+
+.wtp-plugin-root .sp-focus-chip-img,
+.wtp-plugin-root .sp-focus-chip img {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 1px solid color-mix(in srgb, var(--mn-accent-secondary) 40%, var(--mn-border));
+    background: color-mix(in srgb, var(--mn-accent-secondary) 22%, var(--mn-bg-elevated));
+    object-fit: cover;
 }
 
 .wtp-plugin-root .sp-focus-chip-empty {
