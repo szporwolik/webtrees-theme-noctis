@@ -3786,6 +3786,27 @@ select.tom-select,
     --wtp-card-unknown-bg: var(--mn-bg-secondary);
     --wtp-card-unknown-border: var(--mn-border-accent);
 
+    /* Ring icon colors (read by JS → inline SVG) */
+    --wtp-ring-male-fill: #0d2e42;
+    --wtp-ring-male-stroke: #5dbdd8;
+    --wtp-ring-female-fill: #351228;
+    --wtp-ring-female-stroke: #d98cb4;
+    --wtp-ring-broken-fill: #151a28;
+    --wtp-ring-broken-stroke: #4a5168;
+    --wtp-divorce-line: #fb7185;
+    --wtp-heart-fill: #2a1222;
+    --wtp-heart-stroke: #b07090;
+
+    /* Connector and chip tokens */
+    --wtp-connector-line: #3f506a;
+    --wtp-chip-bg: rgba(18, 32, 54, 0.92);
+    --wtp-chip-border: rgba(148, 163, 184, 0.10);
+    --wtp-chip-text: #b8c5db;
+    --wtp-chip-hover-bg: rgba(24, 40, 64, 0.96);
+    --wtp-chip-hover-text: #e0e8f0;
+    --wtp-duration-text: #8fa3c6;
+    --wtp-marker-place: #6ea8c0;
+
     --wtp-noctis-glass: color-mix(in srgb, var(--mn-bg-secondary) 80%, transparent);
     --wtp-noctis-panel-border: color-mix(in srgb, var(--mn-accent-secondary) 30%, var(--mn-border));
     --wtp-noctis-glow-cyan: rgba(56, 189, 248, 0.22);
@@ -4293,12 +4314,18 @@ select.tom-select,
     color: #fda4af;
 }
 
-.wtp-plugin-root .sp-couple-rings svg circle {
-    stroke: color-mix(in srgb, #ff9ad6 52%, #7fe3ff) !important;
+.wtp-plugin-root .sp-couple-rings {
+    opacity: 0.95;
+    filter: saturate(1.05);
 }
 
-.wtp-plugin-root .sp-rings-broken svg line {
-    stroke: #fb7185 !important;
+.wtp-plugin-root .sp-couple-line:hover .sp-couple-rings {
+    opacity: 1;
+    filter: saturate(1.15);
+}
+
+.wtp-plugin-root .sp-place-marker {
+    color: var(--wtp-marker-place, #6ea8c0);
 }
 
 .wtp-plugin-root .sp-avatar-wrap {
