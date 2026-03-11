@@ -129,8 +129,9 @@ class NoctisTheme extends MinimalTheme implements ModuleThemeInterface, ModuleCu
         }
 
         $footer = view($this->name() . '::theme/footer-credits', [
-            'url'  => self::AUTHOR_WEBSITE,
-            'text' => 'Noctis theme by ' . self::CUSTOM_AUTHOR,
+            'url'        => self::AUTHOR_WEBSITE,
+            'github_url' => self::CUSTOM_SUPPORT_URL,
+            'version'    => 'v' . self::CUSTOM_VERSION,
         ]);
 
         $avatarUrl = '';

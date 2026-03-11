@@ -2087,9 +2087,14 @@ body.modal-open .modal-backdrop.show {
 
 .wt-footer-credits {
     padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
 }
 
-.wt-footer-credits a {
+.wt-footer-credits a,
+.mn-footer-version {
     color: var(--mn-text-muted);
     font-size: 0.7rem;
     letter-spacing: 0.04em;
@@ -2100,6 +2105,26 @@ body.modal-open .modal-backdrop.show {
 .wt-footer-credits a:hover {
     color: var(--mn-accent);
     opacity: 1;
+}
+
+.mn-footer-github {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.04em;
+}
+
+.mn-footer-github-icon {
+    width: 0.85rem;
+    height: 0.85rem;
+    fill: currentColor;
+    flex-shrink: 0;
+    vertical-align: middle;
+}
+
+.mn-footer-version {
+    font-variant-numeric: tabular-nums;
 }
 
 /* Separator dot between footer items */
