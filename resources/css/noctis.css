@@ -2998,7 +2998,7 @@ select.tom-select,
         max-width: 100%;
         margin-left: 0;
         margin-right: 0;
-        padding: 0.55rem 0.75rem 0.4rem;
+        padding: 0.55rem 0.75rem 0.4rem 0;
     }
 
     .wt-main-container {
@@ -3302,8 +3302,8 @@ select.tom-select,
         min-width: 0;
         margin: 0;
         font-size: 1.02rem;
-        justify-content: center;
-        text-align: center;
+        justify-content: flex-start;
+        text-align: left;
     }
 
     .wt-site-title::before {
@@ -3316,7 +3316,7 @@ select.tom-select,
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-        padding-inline: 0.1rem;
+        padding-inline: 0;
     }
 
     #mobileMenu {
@@ -3506,6 +3506,7 @@ select.tom-select,
     .wt-header-container {
         padding-top: 0.5rem;
         padding-bottom: 0.35rem;
+        padding-left: 0;
     }
 
     .mn-navbar-toggler .navbar-toggler {
