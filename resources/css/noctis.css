@@ -3679,19 +3679,29 @@ select.tom-select,
     user-select: none;
     font-size: 12px;
     font-weight: 600;
-    color: #b67280;
+    color: var(--mn-text-secondary);
     white-space: nowrap;
     padding: 2px 6px;
     border-radius: calc(var(--sp-radius) - 4px);
-    border: 1px solid var(--wtp-border, #e5e7eb);
+    border: 1px solid color-mix(in srgb, var(--mn-border) 88%, var(--mn-accent-secondary));
+    background: color-mix(in srgb, var(--mn-bg-surface) 88%, #000);
     height: 36px;
-    transition: background 0.15s, border-color 0.15s;
+    transition: background var(--mn-transition-fast), border-color var(--mn-transition-fast), color var(--mn-transition-fast), box-shadow var(--mn-transition-fast), transform var(--mn-transition-fast);
 }
 
 .wtp-plugin-root .sp-toggle-sources:hover,
 .wtp-plugin-root .sp-toggle-switch-label:hover {
-    background: #f3f4f6;
-    border-color: var(--wtp-border-strong, #adb5bd);
+    background: color-mix(in srgb, #d4c29f 14%, var(--mn-bg-surface));
+    border-color: color-mix(in srgb, #d4c29f 52%, var(--mn-border));
+    color: var(--mn-white-pure);
+    box-shadow: 0 0 0 1px rgba(212, 194, 159, 0.2), 0 6px 14px rgba(212, 194, 159, 0.16);
+    transform: translateY(-1px);
+}
+
+.wtp-plugin-root .sp-toggle-sources:focus-visible,
+.wtp-plugin-root .sp-toggle-switch-label:focus-visible {
+    outline: 2px solid color-mix(in srgb, #d4c29f 68%, #fff);
+    outline-offset: 1px;
 }
 
 .wtp-plugin-root .sp-toggle-sources:has(.sp-toggle-input:disabled),
@@ -3711,9 +3721,34 @@ select.tom-select,
     transition: background 0.2s, border-color 0.2s !important;
 }
 
+/* Make OFF toggles read like neutral toolbar/link buttons. */
+.wtp-plugin-root .sp-toggle-sources:has(.sp-toggle-input:not(:checked)) .sp-toggle-switch,
+.wtp-plugin-root .sp-toggle-switch-label:has(.sp-toggle-input:not(:checked)) .sp-toggle-switch {
+    background: color-mix(in srgb, var(--mn-bg-surface) 88%, #000) !important;
+    border-color: color-mix(in srgb, var(--mn-border) 88%, var(--mn-accent-secondary)) !important;
+}
+
 /* Icons and labels: always neutral */
 .wtp-plugin-root .sp-toggle-switch-label .sp-toggle-icon,
 .wtp-plugin-root .sp-toggle-switch-label .sp-toggle-label {
+    color: var(--mn-text-secondary) !important;
+}
+
+/* Keep checked toggles visually consistent with other toolbar buttons.
+   The purple switch track is the active-state indicator. */
+.wtp-plugin-root .sp-toggle-sources:has(.sp-toggle-input:checked),
+.wtp-plugin-root .sp-toggle-switch-label:has(.sp-toggle-input:checked) {
+    background: color-mix(in srgb, var(--mn-bg-surface) 88%, #000);
+    border-color: color-mix(in srgb, var(--mn-border) 88%, var(--mn-accent-secondary));
+    color: var(--mn-text-secondary);
+    box-shadow: none;
+    transform: none;
+}
+
+.wtp-plugin-root .sp-toggle-sources:has(.sp-toggle-input:checked) .sp-toggle-icon,
+.wtp-plugin-root .sp-toggle-sources:has(.sp-toggle-input:checked) .sp-toggle-label,
+.wtp-plugin-root .sp-toggle-switch-label:has(.sp-toggle-input:checked) .sp-toggle-icon,
+.wtp-plugin-root .sp-toggle-switch-label:has(.sp-toggle-input:checked) .sp-toggle-label {
     color: var(--mn-text-secondary) !important;
 }
 
@@ -3771,8 +3806,8 @@ select.tom-select,
         radial-gradient(115% 115% at 92% 84%, rgba(56, 189, 248, 0.18) 0%, transparent 50%),
         radial-gradient(120% 100% at 50% 100%, rgba(6, 12, 28, 0.72) 0%, rgba(5, 10, 24, 0.94) 100%),
         #050a18;
-    border: 1px solid var(--wtp-noctis-panel-border);
-    box-shadow: var(--wtp-noctis-shadow-deep);
+    border: 1px solid color-mix(in srgb, var(--mn-bg-primary) 72%, var(--mn-border)) !important;
+    box-shadow: 0 10px 24px rgba(2, 7, 20, 0.46);
 }
 
 .wtp-plugin-root .sp-conn-canvas {
@@ -3782,9 +3817,9 @@ select.tom-select,
 
 .wtp-plugin-root .sp-toolbar {
     background: var(--wtp-noctis-glass);
-    border: 1px solid var(--wtp-noctis-panel-border);
+    border: 1px solid color-mix(in srgb, var(--mn-bg-primary) 78%, var(--mn-border)) !important;
     border-radius: 12px;
-    box-shadow: 0 10px 22px rgba(2, 7, 20, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    box-shadow: 0 6px 14px rgba(2, 7, 20, 0.30), inset 0 1px 0 rgba(255, 255, 255, 0.01);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     padding: 5px 8px;
@@ -3796,7 +3831,7 @@ select.tom-select,
 .wtp-plugin-root .sp-toolbar .sp-btn {
     width: 32px;
     height: 32px;
-    border-radius: 8px;
+    border-radius: calc(var(--sp-radius, 12px) - 4px);
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -3815,19 +3850,19 @@ select.tom-select,
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border-radius: 8px;
-    color: #e3e8f4;
-    background: color-mix(in srgb, var(--mn-bg-secondary) 88%, #000);
-    border: 1px solid color-mix(in srgb, var(--mn-border) 82%, transparent);
+    border-radius: calc(var(--sp-radius, 12px) - 4px);
+    color: inherit;
+    background: transparent;
+    border: 0;
     font-size: 12px;
     font-weight: 620;
     letter-spacing: 0.01em;
 }
 
 .wtp-plugin-root .sp-focus-chip {
-    height: 30px;
-    padding: 0 10px 0 7px;
-    border-radius: 8px;
+    height: 32px;
+    padding: 0 10px 0 8px;
+    border-radius: calc(var(--sp-radius, 12px) - 4px);
     border: 1px solid color-mix(in srgb, var(--mn-accent-secondary) 36%, var(--mn-border));
     background: linear-gradient(145deg, rgba(20, 33, 55, 0.95), rgba(13, 24, 43, 0.95));
     display: inline-flex;
@@ -3879,13 +3914,41 @@ select.tom-select,
     border-color: color-mix(in srgb, #d4c29f 58%, var(--mn-border));
 }
 
+
 .wtp-plugin-root .sp-toolbar .sp-btn,
+.wtp-plugin-root .sp-search-input,
+.wtp-plugin-root .wt-page-options :is(input[type="text"], select, textarea) {
+    transition: background var(--mn-transition-fast), border-color var(--mn-transition-fast), box-shadow var(--mn-transition-fast), color var(--mn-transition-fast), transform var(--mn-transition-fast);
+}
+
+/* Keep non-toolbar inputs with the standard control palette. */
 .wtp-plugin-root .sp-search-input,
 .wtp-plugin-root .wt-page-options :is(input[type="text"], select, textarea) {
     background: color-mix(in srgb, var(--mn-bg-surface) 88%, #000);
     color: var(--mn-text-primary);
     border: 1px solid color-mix(in srgb, var(--mn-border) 88%, var(--mn-accent-secondary));
-    transition: background var(--mn-transition-fast), border-color var(--mn-transition-fast), box-shadow var(--mn-transition-fast), color var(--mn-transition-fast), transform var(--mn-transition-fast);
+}
+
+/* Icon buttons: home / zoom out / zoom in / fullscreen / link */
+.wtp-plugin-root .sp-toolbar .sp-btn:not([id$="_btnZoomReset"]) {
+    background: color-mix(in srgb, var(--mn-bg-surface) 88%, #000) !important;
+    color: var(--mn-text-secondary) !important;
+    border: 1px solid color-mix(in srgb, var(--mn-border) 88%, var(--mn-accent-secondary)) !important;
+}
+
+/* Zoom reset button (100%) uses the alternate, subtler tone. */
+.wtp-plugin-root .sp-toolbar .sp-btn[id$="_btnZoomReset"] {
+    background: color-mix(in srgb, var(--mn-bg-secondary) 88%, #000) !important;
+    color: var(--mn-text-secondary) !important;
+    border: 1px solid color-mix(in srgb, var(--mn-border) 82%, transparent) !important;
+    width: 50px;
+    min-width: 50px;
+    padding: 0;
+}
+
+/* Keep fullscreen button corner geometry identical to other toolbar buttons. */
+.wtp-plugin-root .sp-toolbar .sp-btn[id$="_btnFullscreen"] {
+    border-radius: calc(var(--sp-radius, 12px) - 4px) !important;
 }
 
 .wtp-plugin-root .sp-toolbar .sp-btn:hover,
@@ -3895,6 +3958,26 @@ select.tom-select,
     color: #fff;
     box-shadow: 0 0 0 1px rgba(212, 194, 159, 0.2), 0 6px 14px rgba(212, 194, 159, 0.16);
     transform: translateY(-1px);
+}
+
+.wtp-plugin-root .sp-toolbar .sp-btn[id$="_btnZoomReset"]:hover,
+.wtp-plugin-root .sp-toolbar .sp-btn[id$="_btnZoomReset"].sp-active {
+    background: color-mix(in srgb, #d4c29f 14%, var(--mn-bg-surface));
+    border-color: color-mix(in srgb, #d4c29f 52%, var(--mn-border));
+    color: var(--mn-white-pure);
+    box-shadow: 0 0 0 1px rgba(212, 194, 159, 0.2), 0 6px 14px rgba(212, 194, 159, 0.16);
+    transform: translateY(-1px);
+}
+
+/* Zoom text sits inside a button; avoid forcing extra width that can overflow. */
+.wtp-plugin-root .sp-toolbar .sp-btn[id$="_btnZoomReset"] .sp-zoom-display {
+    min-width: 0;
+    width: 100%;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum" 1, "lnum" 1;
+    letter-spacing: 0;
+    white-space: nowrap;
 }
 
 .wtp-plugin-root .sp-toolbar-sep {
@@ -4176,15 +4259,34 @@ select.tom-select,
     background: color-mix(in srgb, #8adfff 66%, var(--mn-border));
 }
 
+/* No date/no chip state: remove leftover connector stub under rings. */
+.wtp-plugin-root .sp-card:not(:has(.sp-couple-date, .sp-couple-chip-row, .sp-couple-chip-duration)) .sp-couple-line::after {
+    display: none !important;
+}
+
 .wtp-plugin-root .sp-couple-date {
     color: var(--mn-white-pure);
     background: linear-gradient(145deg, rgba(27, 42, 67, 0.95), rgba(18, 32, 54, 0.95));
-    border: 1px solid color-mix(in srgb, var(--mn-accent-secondary) 42%, var(--mn-chip-border));
-    border-radius: 999px;
+    border: 0;
+    border-radius: 10px;
     padding: 0.10rem 0.50rem;
     font-weight: 540;
     font-size: 0.78rem;
-    box-shadow: 0 3px 10px rgba(2, 7, 20, 0.38);
+    box-shadow: none;
+}
+
+/* Couple chips from newer plugin markup: keep rounding consistent with person cards. */
+.wtp-plugin-root .sp-couple-chip-row,
+.wtp-plugin-root .sp-couple-chip-duration {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    border-radius: 10px;
+    padding: 0.10rem 0.45rem;
+    color: var(--mn-white-pure);
+    background: linear-gradient(145deg, rgba(27, 42, 67, 0.95), rgba(18, 32, 54, 0.95));
+    border: 0;
+    box-shadow: none;
 }
 
 .wtp-plugin-root .sp-divorce-date {
