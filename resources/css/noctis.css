@@ -39,8 +39,6 @@
     --mn-border-accent: rgba(124, 110, 240, 0.3);
 
     /* Glass effect */
-    --mn-glass-bg: rgba(17, 24, 39, 0.7);
-    --mn-glass-border: rgba(148, 163, 184, 0.1);
     --mn-glass-blur: 16px;
 
     /* Shadows */
@@ -48,25 +46,18 @@
     --mn-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
     --mn-shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.6);
     --mn-shadow-glow: 0 0 20px var(--mn-accent-glow);
-    --mn-elevation-1: 0 1px 3px rgba(0, 0, 0, 0.28);
-    --mn-elevation-2: 0 6px 18px rgba(0, 0, 0, 0.42);
-    --mn-elevation-3: 0 12px 30px rgba(0, 0, 0, 0.56);
     --mn-focus-ring: 0 0 0 3px rgba(124, 110, 240, 0.22);
     --mn-card-hover-shadow: 0 10px 24px rgba(2, 7, 20, 0.62);
     --mn-divider-soft: rgba(148, 163, 184, 0.10);
-    --mn-chip-bg: rgba(30, 38, 64, 0.82);
-    --mn-chip-border: rgba(148, 163, 184, 0.18);
 
     /* Radius */
     --mn-radius-sm: 6px;
     --mn-radius-md: 10px;
     --mn-radius-lg: 16px;
-    --mn-radius-xl: 24px;
 
     /* Transitions */
     --mn-transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
     --mn-transition: 250ms cubic-bezier(0.4, 0, 0.2, 1);
-    --mn-transition-slow: 400ms cubic-bezier(0.4, 0, 0.2, 1);
 
     /* Typography - premium cross-platform local font stack */
     --mn-font-sans: "Aptos", "SF Pro Text", "SF Pro Display", "Segoe UI Variable Text", "Segoe UI", "Roboto", "Noto Sans", "Helvetica Neue", Helvetica, Arial, system-ui, -apple-system, sans-serif;
@@ -2115,8 +2106,7 @@ body.modal-open .modal-backdrop.show {
     gap: 0.4rem;
 }
 
-.wt-footer-credits a,
-.mn-footer-version {
+.wt-footer-credits a {
     color: var(--mn-text-muted);
     font-size: 0.7rem;
     letter-spacing: 0.04em;
@@ -2143,10 +2133,6 @@ body.modal-open .modal-backdrop.show {
     fill: currentColor;
     flex-shrink: 0;
     vertical-align: middle;
-}
-
-.mn-footer-version {
-    font-variant-numeric: tabular-nums;
 }
 
 /* Separator dot between footer items */
@@ -2928,11 +2914,8 @@ select.tom-select,
     background-color: var(--mn-bg-secondary) !important;
 }
 
-/* Leaflet / map containers — dark surroundings */
-.leaflet-container {
-    background-color: var(--mn-bg-primary) !important;
-}
-
+/* Leaflet / map containers — dark surroundings
+   (base z-index + background already set in the Maps section above) */
 .osm-wrapper,
 .osm-sidebar,
 .osm-sidebar-content {
