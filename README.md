@@ -24,6 +24,9 @@ Built with care for aesthetics, accessibility, and performance. Follows 2026 des
 - **Glassmorphism header** — Frosted blur effect with gradient accent line
 - **Ambient aurora** — Subtle animated background blobs (3 layers, hardware-accelerated)
 - **Auto-hide header** — Slides away on scroll-down for mobile (returns on scroll-up)
+- **Mobile user chip** — Avatar + name pill in the mobile header bar; taps to open the user menu
+- **Mobile pending button** — Warning-colored icon button surfaces pending changes directly in the mobile header
+- **Flattened mobile menu** — User sub-items (My data, My page, etc.) rendered as top-level rows for one-tap access
 - **User avatar** — Pulls your GEDCOM photo into the navigation bar
 - **Full chart support** — Pedigree, fan, lifespans, timeline, statistics — all dark-native
 - **Leaflet maps** — Dark tiles, proper `invalidateSize()` fix after CSS load
@@ -80,7 +83,7 @@ Built with care for aesthetics, accessibility, and performance. Follows 2026 des
 ├── screenshots/            # README images
 └── resources/
     ├── css/
-    │   └── noctis.css      # Complete dark stylesheet (~2400 lines)
+    │   └── noctis.css      # Complete dark stylesheet (~4300 lines)
     └── views/
         ├── individual-page-images.phtml
         ├── layouts/
