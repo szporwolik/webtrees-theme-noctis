@@ -2167,11 +2167,13 @@ body.modal-open .modal-backdrop.show {
     letter-spacing: 0.04em;
     opacity: 0.6;
     transition: opacity var(--mn-transition-fast), color var(--mn-transition-fast);
+    text-decoration: none;
 }
 
 .wt-footer-credits a:hover {
-    color: var(--mn-accent);
-    opacity: 1;
+    color: color-mix(in srgb, var(--mn-accent) 70%, var(--mn-text-muted));
+    opacity: 0.85;
+    text-decoration: none;
 }
 
 .mn-footer-github {
