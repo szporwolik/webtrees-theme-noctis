@@ -589,6 +589,27 @@ body.modal-open [dir] .wt-main-wrapper {
     word-break: break-all;
 }
 
+/* Media list cards — compact layout */
+.wt-page-options-media-list ~ .wt-page-content .card-header {
+    padding: 0.55rem 0.85rem;
+}
+
+.wt-page-options-media-list ~ .wt-page-content .card-body {
+    padding: 0.75rem 0.85rem;
+}
+
+.wt-page-options-media-list ~ .wt-page-content .card-body .card-text {
+    font-size: 0.78rem;
+    line-height: 1.55;
+    color: var(--mn-text-secondary);
+    word-break: break-all;
+}
+
+.wt-page-options-media-list ~ .wt-page-content .card-footer {
+    padding: 0.5rem 0.85rem;
+    font-size: 0.82rem;
+}
+
 .card-body {
     padding: 1.15rem;
     color: var(--mn-text-primary);
