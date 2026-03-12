@@ -599,8 +599,8 @@ body.modal-open [dir] .wt-main-wrapper {
 }
 
 .wt-page-options-media-list ~ .wt-page-content .card-body .card-text {
-    font-size: 0.78rem;
-    line-height: 1.55;
+    font-size: 0.72rem;
+    line-height: 1.45;
     color: var(--mn-text-secondary);
     word-break: break-all;
 }
