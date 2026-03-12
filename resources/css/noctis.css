@@ -582,6 +582,13 @@ body.modal-open [dir] .wt-main-wrapper {
     border-radius: var(--mn-radius-md) var(--mn-radius-md) 0 0;
 }
 
+.card-header .card-title {
+    font-size: 0.88rem;
+    font-weight: 600;
+    margin: 0;
+    word-break: break-all;
+}
+
 .card-body {
     padding: 1.15rem;
     color: var(--mn-text-primary);
