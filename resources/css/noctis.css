@@ -591,23 +591,33 @@ body.modal-open [dir] .wt-main-wrapper {
 
 /* Media list cards — compact layout */
 .wt-page-options-media-list ~ .wt-page-content .card-header {
-    padding: 0.55rem 0.85rem;
+    padding: 0.35rem 0.65rem;
+}
+
+.wt-page-options-media-list ~ .wt-page-content .card-header .card-title {
+    font-size: 0.76rem;
 }
 
 .wt-page-options-media-list ~ .wt-page-content .card-body {
-    padding: 0.75rem 0.85rem;
+    padding: 0.45rem 0.65rem;
+}
+
+.wt-page-options-media-list ~ .wt-page-content .card-body .gallery img {
+    max-height: 160px;
+    object-fit: contain;
 }
 
 .wt-page-options-media-list ~ .wt-page-content .card-body .card-text {
-    font-size: 0.72rem;
-    line-height: 1.45;
+    font-size: 0.68rem;
+    line-height: 1.35;
     color: var(--mn-text-secondary);
     word-break: break-all;
+    margin-bottom: 0;
 }
 
 .wt-page-options-media-list ~ .wt-page-content .card-footer {
-    padding: 0.5rem 0.85rem;
-    font-size: 0.88rem;
+    padding: 0.35rem 0.65rem;
+    font-size: 0.82rem;
 }
 
 .card-body {
