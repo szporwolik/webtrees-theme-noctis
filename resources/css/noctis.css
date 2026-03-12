@@ -590,6 +590,14 @@ body.modal-open [dir] .wt-main-wrapper {
 }
 
 /* Media list cards — compact layout */
+.wt-page-options-media-list ~ .wt-page-content {
+    padding-bottom: 2rem;
+}
+
+.wt-page-options-media-list ~ .wt-page-content > .row {
+    margin-bottom: 2rem;
+}
+
 .wt-page-options-media-list ~ .wt-page-content .card-header {
     padding: 0.35rem 0.65rem;
 }
@@ -599,25 +607,34 @@ body.modal-open [dir] .wt-main-wrapper {
 }
 
 .wt-page-options-media-list ~ .wt-page-content .card-body {
-    padding: 0.45rem 0.65rem;
+    padding: 0.4rem 0.65rem;
 }
 
 .wt-page-options-media-list ~ .wt-page-content .card-body .gallery img {
-    max-height: 160px;
+    max-height: 150px;
     object-fit: contain;
 }
 
-.wt-page-options-media-list ~ .wt-page-content .card-body .card-text {
-    font-size: 0.68rem;
-    line-height: 1.35;
-    color: var(--mn-text-secondary);
+/* Label / value details — direct children of card-body (not inside .card-text) */
+.wt-page-options-media-list ~ .wt-page-content .card-body > div {
+    font-size: 0.72rem !important;
+    line-height: 1.4;
+    color: var(--mn-text-muted) !important;
     word-break: break-all;
+}
+
+.wt-page-options-media-list ~ .wt-page-content .card-body > div .label {
+    font-weight: 600;
+    color: var(--mn-text-secondary) !important;
+}
+
+.wt-page-options-media-list ~ .wt-page-content .card-body > p.card-text {
     margin-bottom: 0;
 }
 
 .wt-page-options-media-list ~ .wt-page-content .card-footer {
-    padding: 0.35rem 0.65rem;
-    font-size: 0.82rem;
+    padding: 0.4rem 0.65rem;
+    font-size: 0.84rem;
 }
 
 .card-body {
