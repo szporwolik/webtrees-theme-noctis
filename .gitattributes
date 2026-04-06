@@ -1,4 +1,9 @@
+# Exclude development/CI files from release archives (git archive / GitHub ZIP)
 /.vscode export-ignore
 /.idea export-ignore
+/.github/ export-ignore
 /.gitignore export-ignore
 /.gitattributes export-ignore
+/releases/ export-ignore
+/screenshots/ export-ignore
+/README.md export-ignore
