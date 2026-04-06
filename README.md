@@ -97,7 +97,13 @@ Built with care for aesthetics, accessibility, and performance. Follows 2026 des
 
 ## Contributing
 
-This is a personal project. Issues are welcome, but pull requests are not accepted.
+Contributions are welcome.
+
+- Please open pull requests against the `dev` branch.
+- `main` is reserved for stable releases and should only be updated through reviewed pull requests by the maintainer/owners.
+- Feature work, fixes, and proposed improvements should target `dev` first.
+
+Issues, suggestions, and well-scoped pull requests are appreciated.
 
 ## License
 
