@@ -55,6 +55,10 @@
     --mn-radius-md: 10px;
     --mn-radius-lg: 16px;
 
+    /* Layout */
+    --mn-layout-max-width: clamp(1140px, 92vw, 1720px);
+    --mn-layout-gutter: clamp(0.85rem, 1.1vw, 1.25rem);
+
     /* Transitions */
     --mn-transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
     --mn-transition: 250ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -315,9 +319,15 @@ a:hover {
     }
 }
 
-.wt-header-container {
+.wt-header-container,
+[dir] .wt-header-container {
+    max-width: var(--mn-layout-max-width);
+    margin-left: auto;
+    margin-right: auto;
     padding-top: 0.6rem;
     padding-bottom: 0.45rem;
+    padding-left: var(--mn-layout-gutter);
+    padding-right: var(--mn-layout-gutter);
 }
 
 /* Site title with genealogy tree icon */
@@ -527,6 +537,11 @@ body.modal-open [dir] .wt-main-wrapper {
 
 .wt-main-container,
 [dir] .wt-main-container {
+    max-width: var(--mn-layout-max-width);
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: var(--mn-layout-gutter);
+    padding-right: var(--mn-layout-gutter);
     background-color: transparent !important;
 }
 
