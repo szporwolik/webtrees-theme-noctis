@@ -105,6 +105,16 @@ Contributions are welcome.
 
 Issues, suggestions, and well-scoped pull requests are appreciated.
 
+## Releases
+
+A GitHub Actions workflow (`.github/workflows/release.yml`) automates the release process. It triggers automatically when `latest-version.txt` or `NoctisTheme.php` is pushed to `main`, or can be triggered manually from the Actions tab.
+
+Before releasing:
+
+1. Update the **`version`** field in `latest-version.txt` (e.g. `"0.9.1"`).
+2. Update the **`CUSTOM_VERSION`** constant in `NoctisTheme.php` to the same version.
+3. Push to `main` or run the **Create Release** workflow from the Actions tab — it validates version consistency, builds a ZIP archive, and creates a tagged GitHub release with auto-generated notes from merged pull requests.
+
 ## License
 
 [GPL-3.0-or-later](https://www.gnu.org/licenses/gpl-3.0.html) — same license family as webtrees itself.
